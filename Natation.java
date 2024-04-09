@@ -5,6 +5,11 @@ public class Natation extends Sport {
     }
     @Override
     public int calculeRes(){
-        return 0;
+        List<Athlete> participants = this.epreuves.getParticipants();
+        int points = 0;
+        for (Athlete participant : participants){
+            points += participant.getForce()*getAgilite()*getEndurance();
+        }
+        return points;
     }
 }
