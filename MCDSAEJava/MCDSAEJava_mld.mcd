@@ -1,0 +1,22 @@
+%%mocodo
+:::
+PARTICIPEREQUIPE: #id_E responsable > EQUIPE > id_E, _#id_Ep > EPREUVE > id_Ep
+:
+EQUIPE: id_E, nom_E
+:::::
+
+
+:::
+EPREUVE: id_Ep, nom, categorie, style, #id_S > SPORT > id_S
+:
+PARTICIPER: #id_A responsable > ATHLETE > id_A, _#id_Ep > EPREUVE > id_Ep
+:
+ATHLETE: id_A, nom_A, prenom_A, sexe_A, force, agilite, endurance, #id_P > PAYS > id_P
+:
+PAYS: id_P, nom_P, nb_Or, nb_Argent, nb_Bronze
+:
+
+
+:
+SPORT: id_S, nom, milieu
+:::::::::
