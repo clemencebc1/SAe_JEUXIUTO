@@ -2,57 +2,57 @@
 
 CREATE TABLE ATHLETE (
   PRIMARY KEY (id_A),
-  id_A      VARCHAR(42) NOT NULL,
-  nom_A     VARCHAR(42),
-  prenom_A  VARCHAR(42),
-  sexe_A    VARCHAR(42),
-  force     VARCHAR(42),
-  agilite   VARCHAR(42),
-  endurance VARCHAR(42),
-  id_P      VARCHAR(42) NOT NULL
+  id_A     INT NOT NULL,
+  nom_A     VARCHAR(20),
+  prenom_A  VARCHAR(20),
+  sexe_A    VARCHAR(1),
+  force_A    INT,
+  agilite  INT,
+  endurance INT,
+  id_P      INT NOT NULL
 );
 
 CREATE TABLE EPREUVE (
   PRIMARY KEY (id_Ep),
-  id_Ep     VARCHAR(42) NOT NULL,
-  nom       VARCHAR(42),
-  categorie VARCHAR(42),
-  style     VARCHAR(42),
-  id_S      VARCHAR(42) NOT NULL
+  id_Ep    INT NOT NULL,
+  nom       VARCHAR(20),
+  categorie VARCHAR(20),
+  style     VARCHAR(20),
+  id_S      INT NOT NULL
 );
 
 CREATE TABLE EQUIPE (
   PRIMARY KEY (id_E),
-  id_E  VARCHAR(42) NOT NULL,
-  nom_E VARCHAR(42)
+  id_E  INT NOT NULL,
+  nom_E VARCHAR(20)
 );
 
 CREATE TABLE PARTICIPER (
   PRIMARY KEY (id_A_responsable, id_Ep),
-  id_A_responsable VARCHAR(42) NOT NULL,
-  id_Ep            VARCHAR(42) NOT NULL
+  id_A_responsable INT NOT NULL,
+  id_Ep            INT NOT NULL
 );
 
 CREATE TABLE PARTICIPEREQUIPE (
   PRIMARY KEY (id_E_responsable, id_Ep),
-  id_E_responsable VARCHAR(42) NOT NULL,
-  id_Ep            VARCHAR(42) NOT NULL
+  id_E_responsable INT NOT NULL,
+  id_Ep            INT NOT NULL
 );
 
 CREATE TABLE PAYS (
   PRIMARY KEY (id_P),
-  id_P      VARCHAR(42) NOT NULL,
-  nom_P     VARCHAR(42),
-  nb_Or     VARCHAR(42),
-  nb_Argent VARCHAR(42),
-  nb_Bronze VARCHAR(42)
+  id_P      INT NOT NULL,
+  nom_P     VARCHAR(20),
+  nb_Or    INT,
+  nb_Argent INT,
+  nb_Bronze INT
 );
 
 CREATE TABLE SPORT (
   PRIMARY KEY (id_S),
-  id_S   VARCHAR(42) NOT NULL,
-  nom    VARCHAR(42),
-  milieu VARCHAR(42)
+  id_S   INT NOT NULL,
+  nom    VARCHAR(20),
+  milieu VARCHAR(20)
 );
 
 ALTER TABLE ATHLETE ADD FOREIGN KEY (id_P) REFERENCES PAYS (id_P);
