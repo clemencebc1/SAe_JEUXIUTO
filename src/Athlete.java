@@ -1,17 +1,11 @@
-public class Athlete{
 
+public class Athlete implements Participant{
     private String nom;
-    
     private String prenom;
-    
     private String sexe;
-
     private int force;
-
     private int agilite;
-
     private int endurance;
-
     public Athlete(String nom, String prenom, String sexe, int force, int agilite, int endurance){
         this.nom = nom;
         this.prenom = prenom;
@@ -44,4 +38,13 @@ public class Athlete{
     public int getEndurance(){
         return this.endurance;
     }
+    /**
+     * @param epreuve une epreuve 
+     */
+    @Override
+    public double participer(Epreuve e){
+        e.ajoutParticipants(this);
+        return e.getSport().calculeRes(e);
+
+}
 }
