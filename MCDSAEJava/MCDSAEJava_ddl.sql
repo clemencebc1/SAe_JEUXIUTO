@@ -7,7 +7,48 @@ drop table EQUIPE;
 drop table SPORT;
 drop table PAYS; 
 
+<<<<<<< HEAD
 
+=======
+CREATE TABLE ATHLETE (
+  PRIMARY KEY (id_A),
+  id_A     INT NOT NULL,
+  nom_A     VARCHAR(20),
+  prenom_A  VARCHAR(20),
+  sexe_A    VARCHAR(1),
+  force_A    INT,
+  agilite  INT,
+  endurance INT,
+  id_P      INT NOT NULL
+);
+
+CREATE TABLE EPREUVE (
+  PRIMARY KEY (id_Ep),
+  id_Ep    INT NOT NULL,
+  nom       VARCHAR(20),
+  categorie VARCHAR(20),
+  style     VARCHAR(20),
+  id_S      INT NOT NULL
+);
+
+CREATE TABLE EQUIPE (
+  PRIMARY KEY (id_E),
+  id_E  INT NOT NULL,
+  nom_E VARCHAR(20)
+);
+
+CREATE TABLE PARTICIPER (
+  PRIMARY KEY (id_A_responsable, id_Ep),
+  id_A_responsable INT NOT NULL,
+  id_Ep            INT NOT NULL
+);
+
+CREATE TABLE PARTICIPEREQUIPE (
+  PRIMARY KEY (id_E_responsable, id_Ep),
+  id_E_responsable INT NOT NULL,
+  id_Ep            INT NOT NULL
+);
+>>>>>>> 6d2a908cd2b5ddb6b8169bbb189649bd3ad5e054
 
 CREATE TABLE PAYS (
   PRIMARY KEY (id_P),
