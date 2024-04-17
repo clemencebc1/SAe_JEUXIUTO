@@ -1,3 +1,4 @@
+
 public class Athlete implements Participant{
     private String nom;
     private String prenom;
@@ -45,5 +46,5 @@ public class Athlete implements Participant{
         e.ajoutParticipants(this);
         return e.getSport().calculeRes(e);
 
-    }
+}
 }
