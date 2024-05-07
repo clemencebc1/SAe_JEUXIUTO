@@ -12,7 +12,7 @@ public class Epreuve {
     private Sport sport;
     private List<Athlete> participants;
     private static List<Epreuve> epreuves; // à chaque nouvelle epreuve on l'ajoute à une liste d'epreuve existente
-    public Epreuve(String nom, String cat, String style){
+    public Epreuve(String nom, String cat, String style, Sport sport){
         this.nom = nom;
         this.categorie = cat;
         this.style = style;

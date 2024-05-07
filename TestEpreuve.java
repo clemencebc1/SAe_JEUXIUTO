@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 
 public class TestEpreuve {
-    Epreuve epreuveNatation = new Epreuve("100m brasse hommes", "hommes", "individuel");
+    Sport natation = new Natation("Natation", "Eau");
+    Epreuve epreuveNatation = new Epreuve("100m brasse hommes", "hommes", "individuel", natation);
     @Test 
     public void testGetNom(){
         assertEquals(epreuveNatation.getNom(), "100m brasse hommes");
