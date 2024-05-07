@@ -38,7 +38,7 @@ public class Epreuve {
     public Sport getSport() {
         return sport;
     }
-
+    
     // setters
     public static void ajoutEpreuve(Epreuve e){
         Epreuve.epreuves.add(e);
