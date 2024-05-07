@@ -54,4 +54,24 @@ public class TestSport {
         epreuveEscrime.ajoutParticipants(equipeFrance);
         assertEquals(escrime.calculeRes(epreuveEscrime),3180);
         }
+
+    Sport volleyBall = new VolleyBall("Volley-ball", "intérieur");
+    Epreuve epreuveVolleyBall = new Epreuve("Volley-ball", "hommes", "équipe", volleyBall);
+
+    @Test 
+    public void testVolleyBallCalculeRes(){
+        Athlete boyer = new Athlete("Boyer", "Stephen", "M", 60, 40, 30, france);
+        epreuveVolleyBall.ajoutParticipants(boyer);
+        assertEquals(volleyBall.calculeRes(epreuveVolleyBall),130);
+    }
+
+    Sport handball = new Handball("Handball", "intérieur");
+    Epreuve epreuveHandball = new Epreuve("Handball", "hommes", "équipe", handball);
+
+    @Test 
+    public void testHandballCalculRes(){
+        Athlete descat =  new Athlete("descat", "hugo", "M", 40, 70, 50, france);
+        epreuveHandball.ajoutParticipants(descat);
+        assertEquals(handball.calculeRes(epreuveHandball),160);
+    }
 } 
