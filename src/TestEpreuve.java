@@ -1,16 +1,21 @@
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class TestEpreuve {
+    Epreuve epreuveNatation = new Epreuve("100m brasse hommes", "hommes", "individuel");
     @Test 
     public void testGetNom(){
-        Epreuve e = new Epreuve("Nom", "Cat", "Style");
-        assertEquals(e.getNom(), "Nom");
+        assertEquals(epreuveNatation.getNom(), "100m brasse hommes");
     }
     @Test 
     public void testGetStyle(){
-        Epreuve e = new Epreuve("Nom", "cat", "Style");
-        assertEquals(e.getStyle(),"Style");
+        assertEquals(epreuveNatation.getStyle(),"individuel");
+    }
+    @Test 
+    public void testGetParticipants(){
+        assertEquals(epreuveNatation.getCategorie(), "hommes");
     }
 }

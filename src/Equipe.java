@@ -10,10 +10,15 @@ public class Equipe implements Participant{
         lesAthletes = new ArrayList<>();
     }
 
+    // getters
     public String getNom() {
         return nom;
     }
+    public List<Athlete> getLesAthletes() {
+        return this.lesAthletes;
+    }
     
+    //setters
     public void ajouterAthlete(Athlete athlete) {
         this.lesAthletes.add(athlete);
     }
@@ -28,5 +33,6 @@ public class Equipe implements Participant{
     
         return res = 0;
     }
+
     
 }
