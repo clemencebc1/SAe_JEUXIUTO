@@ -10,10 +10,15 @@ public class Equipe implements Participant{
         lesAthletes = new ArrayList<>();
     }
 
+    // getters
     public String getNom() {
         return nom;
     }
+    public List<Athlete> getLesAthletes() {
+        return this.lesAthletes;
+    }
     
+    //setters
     public void ajouterAthlete(Athlete athlete) {
         this.lesAthletes.add(athlete);
     }
@@ -22,11 +27,12 @@ public class Equipe implements Participant{
     public double participer(Epreuve e){
         double res = 0;
         for (Athlete athlete : lesAthletes) {
-           res = res + athlete.participer();
+           res = res + athlete.participer(e);
+           e.ajoutParticipants(athlete);
         }
-        
-        e.ajoutParticipants(this);
+    
         return res = 0;
     }
+
     
 }
