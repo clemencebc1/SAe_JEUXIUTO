@@ -74,4 +74,13 @@ public class Epreuve {
     public static void setEpreuves(List<Epreuve> epreuves) {
         Epreuve.epreuves = epreuves;
     }
+
+    /** fournit un classement des pays
+     * @return une liste de pays placés selon leurs résultats
+     */
+    public List<Pays> classement(){
+        List<Athlete> athletes = new ArrayList<>(this.participants);
+        return new ArrayList<>();
+
+    }
 }
