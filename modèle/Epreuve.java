@@ -1,6 +1,9 @@
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class Epreuve {
     /**nom de l'epreuve */
@@ -67,10 +70,9 @@ public class Epreuve {
      * @param equipe une equipe d'athlete
      */
     public void ajoutParticipants(Equipe equipe){
-        for (Athlete athlete : equipe.getLesAthletes()){
-            this.participants.add(athlete);
-        }
+        this.participants.addAll(equipe.getLesAthletes());
     }
+
     public static void setEpreuves(List<Epreuve> epreuves) {
         Epreuve.epreuves = epreuves;
     }
@@ -78,9 +80,28 @@ public class Epreuve {
     /** fournit un classement des pays
      * @return une liste de pays placés selon leurs résultats
      */
-    public List<Pays> classement(){
+    public List<?> classement(Comparator<Athlete> comp, Tri tri){
         List<Athlete> athletes = new ArrayList<>(this.participants);
-        return new ArrayList<>();
+        Collections.sort(athletes, comp);
+        if (tri == Tri.PAYS){
+            List<Pays> pays =new ArrayList<>();
+            for (Athlete athlete : this.participants){
+                if (!(pays.contains(athlete.getPays()))){
+                    pays.add(athlete.getPays());
+                }
+            }
+            return pays;
+        }
+        else if (tri == Tri.EQUIPE){
+            List<Equipe> equipe =new ArrayList<>();
+            for (Athlete athlete : this.participants){
+                if (!(equipe.contains(athlete.getEquipe()))){
+                    equipe.add(athlete.getEquipe());
+                }
+            }
+            return equipe;
+        }
+        return athletes;
 
     }
 }
