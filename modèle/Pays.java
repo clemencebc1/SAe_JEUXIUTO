@@ -8,7 +8,7 @@ public class Pays{
     private int nbArgent;
     private int nbBronze;
     private List<Athlete> lesAthletes;
-
+    public enum Medaille{OR,ARGENT,BRONZE};
     public Pays(String nom){
         this.nom = nom;
         this.lesAthletes = new ArrayList<>();
@@ -41,6 +41,16 @@ public class Pays{
     }
     public void setLesAthletes(List<Athlete> lesAthletes) {
         this.lesAthletes = lesAthletes;
+    }
+
+    public void ajoutMedailles(Medaille medal){
+        switch (medal) {
+            case OR:this.nbOr += 1;break;
+            case ARGENT:this.nbArgent += 1;break;
+            case BRONZE:this.nbBronze += 1;break;
+            default:
+                break;
+        }
     }
 
     public void ajoutAthletes(Athlete athlete){
