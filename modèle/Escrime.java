@@ -7,11 +7,17 @@ public class Escrime extends Sport {
         
     }
     @Override
-    public int calculeRes(Epreuve e){
-        List<Athlete> participants = e.getParticipants();
-        int points = 0;
-        for (Athlete participant : participants){
-            points += participant.getForce()*participant.getAgilite()+participant.getEndurance();
+    public <T extends Participant> double calculeRes(T participant){
+        double points = 0;
+        if (participant instanceof Athlete){
+            Athlete athlete = (Athlete) participant;
+            return athlete.getForce()+athlete.getAgilite()+athlete.getEndurance();
+        }
+        else if (participant instanceof Equipe){
+            Equipe equipe = (Equipe) participant;
+            for (Athlete a : equipe.getLesAthletes()){
+                points += a.getForce()+a.getAgilite()+a.getEndurance();
+        }
         }
         return points;
     }

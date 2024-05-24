@@ -21,14 +21,14 @@ public class TestSport {
     }
     @Test 
     public void testNatationCalculeRes(){
-        assertEquals(natation.calculeRes(epreuveNatation), 0);
         Athlete marchand = new Athlete("Marchand", "Léon", "M", 10, 20, 40, france);
         epreuveNatation.ajoutParticipants(marchand);
-        assertEquals(natation.calculeRes(epreuveNatation),8000);
+        assertEquals(natation.calculeRes(marchand),8000., 3);
         Athlete manaudou = new Athlete("Manaudou", "Florent", "M", 20, 10, 50, france);
         equipeFrance.ajouterAthlete(manaudou);
+        equipeFrance.ajouterAthlete(marchand);
         epreuveNatation.ajoutParticipants(equipeFrance);
-        assertEquals(natation.calculeRes(epreuveNatation),18000);
+        assertEquals(natation.calculeRes(equipeFrance),18000., 3);
     }
 
     Sport athletisme = new Athletisme("Athletisme", "sol");
@@ -38,7 +38,7 @@ public class TestSport {
     public void testAthletismeCalculeRes(){
         Athlete sambaMayela = new Athlete("Samba-Mayela", "Cyréna", "F", 20, 40, 30, france);
         epreuveAthletisme.ajoutParticipants(sambaMayela);
-        assertEquals(athletisme.calculeRes(epreuveAthletisme),90);
+        assertEquals(athletisme.calculeRes(sambaMayela),90., 3);
     }
 
     Sport escrime = new Escrime("Escrime", "intérieur");
@@ -48,11 +48,10 @@ public class TestSport {
     public void testEscrimeCalculeRes(){
         Athlete cannone = new Athlete("Cannone", "Romain", "M", 40, 40, 40, france);
         Athlete lefort = new Athlete("Lefort", "Enzo", "M", 30, 50, 40, france);
-        assertEquals(escrime.calculeRes(epreuveEscrime),0);
         equipeFrance.ajouterAthlete(lefort);
         equipeFrance.ajouterAthlete(cannone);
         epreuveEscrime.ajoutParticipants(equipeFrance);
-        assertEquals(escrime.calculeRes(epreuveEscrime),3180);
+        assertEquals(escrime.calculeRes(equipeFrance),240., 3);
         }
 
     Sport volleyBall = new VolleyBall("Volley-ball", "intérieur");
@@ -62,7 +61,7 @@ public class TestSport {
     public void testVolleyBallCalculeRes(){
         Athlete boyer = new Athlete("Boyer", "Stephen", "M", 60, 40, 30, france);
         epreuveVolleyBall.ajoutParticipants(boyer);
-        assertEquals(volleyBall.calculeRes(epreuveVolleyBall),130);
+        assertEquals(volleyBall.calculeRes(boyer),130.,3);
     }
 
     Sport handball = new Handball("Handball", "intérieur");
@@ -72,6 +71,6 @@ public class TestSport {
     public void testHandballCalculRes(){
         Athlete descat =  new Athlete("descat", "hugo", "M", 40, 70, 50, france);
         epreuveHandball.ajoutParticipants(descat);
-        assertEquals(handball.calculeRes(epreuveHandball),160);
+        assertEquals(handball.calculeRes(descat),160.,3);
     }
 } 

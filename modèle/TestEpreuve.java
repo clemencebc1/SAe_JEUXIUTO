@@ -8,10 +8,12 @@ import java.util.Comparator;
 public class TestEpreuve {
     Sport natation = new Natation("Natation", "Eau");
     Pays france = new Pays("France");
+    Pays angleterre = new Pays("Angleterre");
+
     Equipe equipeFrance = new Equipe("France");
     Epreuve epreuveNatation = new Epreuve("100m brasse hommes", "hommes", "individuel", natation);
     Athlete marchand = new Athlete("Marchand", "Léon", "M", 10, 20, 40, france);
-    Pays angleterre = new Pays("Angleterre");
+    Athlete peaty = new Athlete("Peaty", "Adam", "M", 15, 22, 35, angleterre);
 
     @Test 
     public void testGetNom(){

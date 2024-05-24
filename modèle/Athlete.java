@@ -62,7 +62,7 @@ public class Athlete implements Participant{
     @Override
     public double participer(Epreuve e){
         e.ajoutParticipants(this);
-        return e.getSport().calculeRes(e);
+        return e.getSport().calculeRes(this);
 
     }
 }

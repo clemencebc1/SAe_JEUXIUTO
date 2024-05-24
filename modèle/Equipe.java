@@ -25,13 +25,8 @@ public class Equipe implements Participant{
 
     @Override
     public double participer(Epreuve e){
-        double res = 0;
-        for (Athlete athlete : lesAthletes) {
-           res = res + athlete.participer(e);
-           e.ajoutParticipants(athlete);
-        }
-    
-        return res = 0;
+        e.ajoutParticipants(this);
+        return e.getSport().calculeRes(this);
     }
 
     

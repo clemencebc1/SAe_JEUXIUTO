@@ -25,5 +25,5 @@ public abstract class Sport {
         return this.milieu;
     }
     /** calcule le nombre de points que possède une équipe ou un athlète */
-    public abstract int calculeRes(Epreuve e);
+    public abstract <T extends Participant> double calculeRes(T participant);
 }

@@ -1,3 +1,3 @@
 public enum Tri {
-    PAYS,ATHLETE,EQUIPE
+    PAYS,ATHLETE,EQUIPE,EPREUVE
 }

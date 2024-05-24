@@ -101,6 +101,9 @@ public class Epreuve {
             }
             return equipe;
         }
+        else if (tri == Tri.EPREUVE){
+           // this.sport.calculeRes(this);
+        }
         return athletes;
 
     }
