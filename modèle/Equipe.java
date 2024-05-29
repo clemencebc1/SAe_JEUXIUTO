@@ -28,6 +28,10 @@ public class Equipe implements Participant{
         e.ajoutParticipants(this);
         return e.getSport().calculeRes(this);
     }
+    @Override
+    public String toString(){
+        return this.nom+"";
+    }
 
     
 }

@@ -26,13 +26,14 @@ public class Pays{
         return this.nbOr;
     }
 
-    public int getnbArgent(){
+    public int getNbArgent(){
         return this.nbArgent;
     }
 
     public int getNbBronze(){
         return this.nbBronze;
     }
+    
     
 
     @Override
@@ -49,12 +50,32 @@ public class Pays{
         return this.nom.hashCode() + this.nbArgent + this.nbBronze + this.nbOr +13;
     }
 
-    public int getNbArgent() {
-        return nbArgent;
-    }
-
     public List<Athlete> getLesAthletes() {
         return lesAthletes;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setNbOr(int nbOr) {
+        this.nbOr = nbOr;
+    }
+
+    public void setNbArgent(int nbArgent) {
+        this.nbArgent = nbArgent;
+    }
+
+    public void setNbBronze(int nbBronze) {
+        this.nbBronze = nbBronze;
+    }
+
+    public void setLesAthletes(List<Athlete> lesAthletes) {
+        this.lesAthletes = lesAthletes;
+    }
+    @Override
+    public String toString(){
+        return this.nom + " avec "+ this.nbOr +" médailles d'or, "+this.nbArgent+" médailles d'argent et "+this.nbBronze+" médailles de bronze";
     }
 
 }
