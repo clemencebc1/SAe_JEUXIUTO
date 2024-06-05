@@ -18,7 +18,7 @@ public class AthleteBD {
 		return -1;
 	}
 
-	/** C'est mieux que insererJoueur_old */
+
 	int insererAthlete( Athlete j) throws  SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into ATHLETE(id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E) values (?,?,?,?,?,?,?,?,?)");
 		int nouvNum = maxNumJoueur()+1;
@@ -36,10 +36,13 @@ public class AthleteBD {
 	}
 
 	void insererParticipation(Athlete a, Epreuve e){
+		if(a.getSexe().equals(e.getSexe()){
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into PARTICIPER(id_A,id_Ep) values (?,?)");
 		ps.setInt(1, getNumAthlete(a));
 		ps.setInt(2, j.getNumEpreuve(e));
 		ps.executeUpdate();
+		}
+		
 	}
 
 	int getNumAthlete(Athlete a){
