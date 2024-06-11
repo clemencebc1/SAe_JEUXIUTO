@@ -41,7 +41,7 @@ public class AthleteBD {
 		ps.setInt(2, j.getNumEpreuve(e));
 		ps.executeUpdate();
 	}
-
+	/** Permet d'avoir le numéro de l'athlète afin de l'insérer dans la table Participer*/
 	int getNumAthlete(Athlete a){
 		// Create a prepared statement with the SQL query
 		PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_A FROM ATHLETE WHERE nom_A = ? AND prenom_A = ? AND sexe_A = ?");
@@ -60,7 +60,7 @@ public class AthleteBD {
 			}
 			return -1;
 	}
-
+	/** Permet d'avoir le numéro de l'épreuve afin de l'insérer dans la table Participer*/
 	int getNumEpreuve(Epreuve e){
 		// Create a prepared statement with the SQL query
 		PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_Ep FROM EPREUVE WHERE nom = ? AND categorie = ? AND id_S = ?");
