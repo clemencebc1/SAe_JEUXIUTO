@@ -18,7 +18,7 @@ public class AthleteBD {
 		return -1;
 	}
 
-	/** C'est mieux que insererJoueur_old */
+	/** Permet d'insérer un athlète dans la base de données*/
 	int insererAthlete( Athlete j) throws  SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into ATHLETE(id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E) values (?,?,?,?,?,?,?,?,?)");
 		int nouvNum = maxNumJoueur()+1;
@@ -34,7 +34,7 @@ public class AthleteBD {
 		ps.executeUpdate();
 		return nouvNum;
 	}
-
+	/** Permet d'insérer la participation d'un athlète à une épreuve dans la base de données */
 	void insererParticipation(Athlete a, Epreuve e){
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into PARTICIPER(id_A,id_Ep) values (?,?)");
 		ps.setInt(1, getNumAthlete(a));
