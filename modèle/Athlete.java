@@ -65,4 +65,16 @@ public class Athlete implements Participant{
         return e.getSport().calculeRes(this);
 
     }
+    @Override
+    public String toString() {
+        String res =  "Athlete de nom " + nom + ", prenom " + prenom + ", sexe " + sexe + ", force " + force + ", agilite "
+                + agilite + ", endurance " + endurance + ", pays " + pays;
+        if (equipe != null){
+            res += ", son equipe est "+this.equipe;
+            return res;
+        }
+        return res+" n'a pas d'equipe";
+
+    }
+
 }

@@ -1,3 +1,4 @@
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -103,5 +104,13 @@ public class Epreuve {
         }
         return athletes;
 
+
     }
+
+    @Override
+    public String toString() {
+        return "L'epreuve est " + nom + ", categorie " + categorie + ", style " + style + ", sport " + sport
+                + ", participants " + participants;
+    }
+    
 }
