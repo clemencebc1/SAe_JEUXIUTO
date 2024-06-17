@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Pays{
 
     private String nom;
-
+    private Integer num;
     private int nbOr;
 
     private int nbArgent;
@@ -16,8 +16,25 @@ public class Pays{
 
     public Pays(String nom){
         this.nom = nom;
+        this.num = null;
         this.lesAthletes = new ArrayList<>();
     }
+
+    public Pays(String nom, Integer num, int nbOr, int nbArgent, int nbBronze) {
+        this.nom = nom;
+        this.num = num;
+        this.nbOr = nbOr;
+        this.nbArgent = nbArgent;
+        this.nbBronze = nbBronze;
+    }
+    
+
+    public Pays(String nom, Integer num) {
+        this.nom = nom;
+        this.num = num;
+    }
+
+    //getters
 
     public String getNom(){
         return this.nom;
@@ -55,6 +72,8 @@ public class Pays{
         return lesAthletes;
     }
 
+
+    //setters
     public void setNom(String nom) {
         this.nom = nom;
     }
@@ -77,6 +96,10 @@ public class Pays{
     @Override
     public String toString(){
         return this.nom + " avec "+ this.nbOr +" médailles d'or, "+this.nbArgent+" médailles d'argent et "+this.nbBronze+" médailles de bronze";
+    }
+
+    public Integer getNum() {
+        return num;
     }
 
 }
