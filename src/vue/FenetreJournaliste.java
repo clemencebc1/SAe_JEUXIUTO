@@ -57,13 +57,25 @@ public class FenetreJournaliste extends BorderPane{
         HBox hbChoix = new HBox();
         Button classement = new Button("Classement");
         Button natation = new Button("Natation");
+        Button escrime = new Button("Escrime");
+        Button athletisme = new Button("Athlétisme");
+        Button handball = new Button("Handball");
+        Button volleyball = new Button("Volley-Ball");
+
         classement.setStyle("-fx-background-radius: 1em;");
         natation.setStyle("-fx-background-radius: 1em;");
+        escrime.setStyle("-fx-background-radius: 1em;");
+        athletisme.setStyle("-fx-background-radius: 1em;");
+        handball.setStyle("-fx-background-radius: 1em;");
+        volleyball.setStyle("-fx-background-radius: 1em;");
 
-
-        hbChoix.getChildren().addAll(classement,natation);
+        hbChoix.getChildren().addAll(classement,natation,escrime,athletisme,handball,volleyball);
         HBox.setMargin(natation, new Insets(10)); 
         HBox.setMargin(classement, new Insets(10));
+        HBox.setMargin(escrime, new Insets(10));
+        HBox.setMargin(athletisme, new Insets(10));
+        HBox.setMargin(handball, new Insets(10));
+        HBox.setMargin(volleyball, new Insets(10));
         hbChoix.setBackground(new Background(new BackgroundFill(Color.STEELBLUE, null,null)));
 
         this.setTop(hbChoix);
