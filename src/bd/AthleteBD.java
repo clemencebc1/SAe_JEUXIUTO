@@ -7,6 +7,10 @@ import autre.*;
 import comparateur.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 // javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -d bin/ src/bd/*.java src/participant/*.java src/sport/*.java src/autre/*.java src/comparateur/*.java
 
@@ -94,7 +98,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 
 
 		}
-		return ep.classement(comp, tri);
+		return ep.classementMedaille(comp, tri);
 		
 }
 	
@@ -303,7 +307,7 @@ void lancerEpreuve(Epreuve e)throws SQLException{
 
 
 		}
-		List<Map<Athlete,Double>> classement = ep.classementPoint();
+		List<Map<Athlete,Double>> classement = ep.classementPoints();
 		Map<Athlete,Double> numero1 = classement.get(0);
             	Map<Athlete,Double> numero2 = classement.get(1);
             	Map<Athlete,Double> numero3 = classement.get(2);
@@ -314,8 +318,8 @@ void lancerEpreuve(Epreuve e)throws SQLException{
                 	Pays pays1 = a.getPays();
 			
 			PreparedStatement ps1 = this.laConnexion.prepareStatement("UPDATE PAYS SET nbOr = ? where id_P = ? and nom_P = ?" );
-			ps1.setString(1, pays1.getNbOr() + 1);
-			ps1.setString(2, pays1.getNum());
+			ps1.setInt(1, pays1.getNbOr() + 1);
+			ps1.setInt(2, pays1.getNum());
 			ps1.setString(3, pays1.getNom());
 			ps1.executeUpdate();
 			
@@ -323,8 +327,8 @@ void lancerEpreuve(Epreuve e)throws SQLException{
             	for (Athlete a : num2){
                 	Pays pays2 = a.getPays();
 			PreparedStatement ps2 = this.laConnexion.prepareStatement("UPDATE PAYS SET nbArgent = ? where id_P = ? and nom_P = ?" );
-			ps2.setString(1, pays2.getNbArgent() + 1);
-			ps2.setString(2, pays2.getNum());
+			ps2.setInt(1, pays2.getNbArgent() + 1);
+			ps2.setInt(2, pays2.getNum());
 			ps2.setString(3, pays2.getNom());
 			ps2.executeUpdate();
 				
@@ -332,9 +336,9 @@ void lancerEpreuve(Epreuve e)throws SQLException{
             	for (Athlete a : num3){
                 	Pays pays3 = a.getPays();
 			PreparedStatement ps3 = this.laConnexion.prepareStatement("UPDATE PAYS SET nbBronze = ? where id_P = ? and nom_P = ?" );
-			ps3.setString(1, pays2.getNbBronze() + 1);
-			ps3.setString(2, pays2.getNum());
-			ps3.setString(3, pays2.getNom());
+			ps3.setInt(1, pays3.getNbBronze() + 1);
+			ps3.setInt(2, pays3.getNum());
+			ps3.setString(3, pays3.getNom());
 			ps3.executeUpdate();
             	}
 		 

@@ -35,11 +35,12 @@ import javafx.scene.image.ImageView;
 
 public class FenetreAdmin extends BorderPane{
     private Button connexion;
-    
+    private FenetreAccueil appli;
 
-    public FenetreAdmin(Button btn){
+    public FenetreAdmin(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
+        this.appli = appli;
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();

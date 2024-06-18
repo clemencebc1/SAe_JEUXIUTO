@@ -27,6 +27,7 @@ public class ControleBouton implements EventHandler<ActionEvent>{
                 
                     this.appli.getBD().Athlete(this.appli.getConnexionMySQL());
                     if (this.appli.getBD().estAdmin(id, pwd)){
+                        this.appli.afficheFenetreAdmin();
                         this.appli.popUpConnexion().showAndWait();
                         
                     }

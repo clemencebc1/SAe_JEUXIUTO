@@ -53,6 +53,7 @@ public class FenetreAccueil extends Application {
     private FenetreConnexion fenetreCo;
     private FenetreJournaliste fenetreJourna;
     private FenetreInscription fenetreInscription;
+    private FenetreAdmin fenetreAdmin;
     private ConnexionMySQL connexionMySQL;
     private AthleteBD bd;
     private Pane root;
@@ -97,6 +98,9 @@ public class FenetreAccueil extends Application {
 
         this.scene.setRoot(root);
     }
+
+   
+
     public void seConnecter(){
         this.fenetreCo = new FenetreConnexion(boutonConnexion, inscri);
        this.root = this.fenetreCo;
@@ -110,6 +114,14 @@ public class FenetreAccueil extends Application {
         this.root = this.fenetreInscription;
         this.scene.setRoot(root);
         
+    }
+
+    public void afficheFenetreAdmin(){
+        this.fenetreAdmin = new FenetreAdmin(boutonConnexion, this);
+        this.root= this.fenetreAdmin;
+        this.boutonConnexion.setText("Déconnexion");
+
+        this.scene.setRoot(root);
     }
 
     public Alert popUpErreurConnexion(){
@@ -147,6 +159,10 @@ public class FenetreAccueil extends Application {
     }
     public AthleteBD getBD(){
         return this.bd;
+    }
+
+    public FenetreAdmin getFenetreAdmin(){
+        return this.fenetreAdmin;
     }
     public Button getButtonInscri(){
         return this.inscri;
