@@ -11,21 +11,30 @@ public class ConnexionMySQL {
 		Class.forName("org.mariadb.jdbc.Driver");
 	}
 
-	public void connecter(String nomServeur, String nomBase, String nomLogin, String motDePasse, String mdp, String log) throws SQLException {
-		this.st = this.createStatement();
-		ResultSet rs = this.st.executeQuery("SELECT nom_U, mdp_U, role_U FROM USER where nom_u =" + log + " and mdp_u = " + mdp);
-			if (rs.next()){
-			this.mysql = DriverManager.getConnection("jdbc:mysql://" + "servinfo-maria" + ":3306/" + "DBlobjois" +"lobjois"+ "lobjois");
+	public void connecter(String nomServeur, String nomBase, String nomLogin, String motDePasse) throws SQLException {
+		System.out.println("ok2");
+			this.mysql = DriverManager.getConnection("jdbc:mysql://"+nomServeur+":3306/"+nomBase, nomLogin, motDePasse);
 			// si tout c'est bien passé la connexion n'est plus nulle
+
 			this.connecte=this.mysql!=null;
 		}
-	}
+	
 	public void close() throws SQLException {
 		// fermer la connexion
 		this.connecte=false;
 	}
 
-    	public boolean isConnecte() { return this.connecte;}
+    public boolean isConnecte(String log, String mdp)  throws SQLException{ 
+		if (this.connecte){
+			this.st = this.createStatement();
+			log = "'"+log+"'";
+			mdp = "'"+mdp+"'";
+			ResultSet rs = this.st.executeQuery("SELECT nom_U, mdp_U, role_u FROM USER where nom_U ="+log+"and mdp_U="+mdp);
+			if (rs.next()){
+				return true;}
+			}
+		return false;
+}
 	public Statement createStatement() throws SQLException {
 		return this.mysql.createStatement();
 	}
