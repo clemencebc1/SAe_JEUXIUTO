@@ -313,29 +313,29 @@ void lancerEpreuve(Epreuve e)throws SQLException{
             	for (Athlete a : num1){
                 	Pays pays1 = a.getPays();
 			
-			PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE PAYS SET nbOr = ? where id_P = ? and nom_P = ?" );
-			ps.setString(1, pays1.getNbOr() + 1);
-			ps.setString(2, pays1.getNum());
-			ps.setString(3, pays1.getNom());
-			ps.executeUpdate();
+			PreparedStatement ps1 = this.laConnexion.prepareStatement("UPDATE PAYS SET nbOr = ? where id_P = ? and nom_P = ?" );
+			ps1.setString(1, pays1.getNbOr() + 1);
+			ps1.setString(2, pays1.getNum());
+			ps1.setString(3, pays1.getNom());
+			ps1.executeUpdate();
 			
 		}
             	for (Athlete a : num2){
                 	Pays pays2 = a.getPays();
-			PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE PAYS SET nbArgent = ? where id_P = ? and nom_P = ?" );
-			ps.setString(1, pays2.getNbArgent() + 1);
-			ps.setString(2, pays2.getNum());
-			ps.setString(3, pays2.getNom());
-			ps.executeUpdate();
+			PreparedStatement ps2 = this.laConnexion.prepareStatement("UPDATE PAYS SET nbArgent = ? where id_P = ? and nom_P = ?" );
+			ps2.setString(1, pays2.getNbArgent() + 1);
+			ps2.setString(2, pays2.getNum());
+			ps2.setString(3, pays2.getNom());
+			ps2.executeUpdate();
 				
             	}
             	for (Athlete a : num3){
                 	Pays pays3 = a.getPays();
-			PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE PAYS SET nbBronze = ? where id_P = ? and nom_P = ?" );
-			ps.setString(1, pays2.getNbBronze() + 1);
-			ps.setString(2, pays2.getNum());
-			ps.setString(3, pays2.getNom());
-			ps.executeUpdate();
+			PreparedStatement ps3 = this.laConnexion.prepareStatement("UPDATE PAYS SET nbBronze = ? where id_P = ? and nom_P = ?" );
+			ps3.setString(1, pays2.getNbBronze() + 1);
+			ps3.setString(2, pays2.getNum());
+			ps3.setString(3, pays2.getNom());
+			ps3.executeUpdate();
             	}
 		 
 }
