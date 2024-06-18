@@ -115,10 +115,10 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		return -1;
 	}
 
-	List<Pays> classement() throws SQLException{
+	public List<Pays> classement() throws SQLException{
 		ArrayList<Pays> listePays = new ArrayList<>();
 		this.st = this.laConnexion.createStatement();
-		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Or, nb_Argent , nb_Bronze");
+		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Or DESC, nb_Argent DESC, nb_Bronze DESC");
 		while (rs.next()){
 			Integer num = maxNumPays()+1;
 			String nom = rs.getString("nom_P");
@@ -343,9 +343,4 @@ void lancerEpreuve(Epreuve e)throws SQLException{
             	}
 		 
 }
-
-
-
 }
-
-

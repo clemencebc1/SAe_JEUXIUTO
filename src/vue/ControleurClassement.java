@@ -18,6 +18,8 @@ public class ControleurClassement implements EventHandler<ActionEvent>{
         this.appli.getFenetreJourna().recherche();
         Button button = (Button) (event.getSource());
         button.setStyle("-fx-background-color: black; -fx-background-radius: 1em; -fx-text-fill: #ffffff");
+        this.appli.getFenetreJourna().classement();
+
 
 
     }

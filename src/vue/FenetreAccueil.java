@@ -48,12 +48,15 @@ import javafx.scene.control.ButtonType;
 
 public class FenetreAccueil extends Application {
     private Scene scene;
+
+    private FenetreAdmin fenetreAdmin;
+
     private Button boutonConnexion;
     private Button inscri;
     private FenetreConnexion fenetreCo;
     private FenetreJournaliste fenetreJourna;
     private FenetreInscription fenetreInscription;
-    private FenetreAdmin fenetreAdmin;
+
     private ConnexionMySQL connexionMySQL;
     private AthleteBD bd;
     private Pane root;
@@ -66,6 +69,7 @@ public class FenetreAccueil extends Application {
         this.boutonConnexion.setStyle("-fx-text-fill: #000000;"+"-fx-background-radius: 1em;");
         this.inscri.setStyle("-fx-text-fill: #000000;"+"-fx-background-radius: 1em;");
         this.root = new Pane();
+        this.boutonConnexion.setStyle("-fx-background-color: black; -fx-background-radius: 1em; -fx-text-fill: #ffffff");
         this.bd = new AthleteBD();
         try {
             this.connexionMySQL = new ConnexionMySQL();
@@ -85,7 +89,6 @@ public class FenetreAccueil extends Application {
         this.inscri.setOnAction(new ControleBouton(this));
         this.scene = new Scene(this.root);
         this.seConnecter();
-        System.out.println("1");
         stage.setTitle("Fenetre Accueil JO");
         stage.setScene(scene);
         stage.show();
@@ -98,9 +101,6 @@ public class FenetreAccueil extends Application {
 
         this.scene.setRoot(root);
     }
-
-   
-
     public void seConnecter(){
         this.fenetreCo = new FenetreConnexion(boutonConnexion, inscri);
        this.root = this.fenetreCo;
@@ -115,7 +115,6 @@ public class FenetreAccueil extends Application {
         this.scene.setRoot(root);
         
     }
-
     public void afficheFenetreAdmin(){
         this.fenetreAdmin = new FenetreAdmin(boutonConnexion, this);
         this.root= this.fenetreAdmin;

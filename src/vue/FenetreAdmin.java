@@ -1,8 +1,6 @@
 package vue;
 import vue.*;
 
-import javax.swing.text.LabelView;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 // import javafx.beans.binding.Bindings;
@@ -50,7 +48,8 @@ public class FenetreAdmin extends BorderPane{
         
     }
 
-
+    /** ajout de l'image
+     */
     public void ajouteImage(){
         ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg"));
         this.setRight(imageJO);
@@ -69,10 +68,9 @@ public class FenetreAdmin extends BorderPane{
         modifier.setStyle("-fx-background-radius: 1em;");
         
         HTop.getChildren().addAll(saisir,supprimer,modifier);
-
-        HTop.setMargin(saisir, new Insets(10)); 
-        HTop.setMargin(supprimer, new Insets(10));
-        HTop.setMargin(modifier, new Insets(10));
+        HBox.setMargin(saisir, new Insets(10)); 
+        HBox.setMargin(supprimer, new Insets(10));
+        HBox.setMargin(modifier, new Insets(10));
    
 
         HTop.setBackground(new Background(new BackgroundFill(Color.GREEN, null,null)));
@@ -80,6 +78,16 @@ public class FenetreAdmin extends BorderPane{
         this.setTop(HTop);
     
     }
+
+    public void ajouteCenter(){
+        HBox hbRecherche = new HBox();
+        TextField tfRecherche = new TextField();
+        Button boutonRecherche = new Button("Rechercher");
+        hbRecherche.getChildren().addAll(tfRecherche, boutonRecherche);
+
+
+    }
+
     public void saisirDonnees(){
         HBox hbSaisirDonnees = new HBox();
         Button athlete = new Button("ajoutez un athlète");
@@ -171,7 +179,6 @@ public class FenetreAdmin extends BorderPane{
 
 
     }
-
 
 
     public void ajouteBottom(){

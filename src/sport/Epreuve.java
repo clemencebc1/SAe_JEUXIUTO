@@ -121,7 +121,7 @@ public class Epreuve {
         }
         return athletes;
     }
-    
+
     public List<Map<Athlete, Double>> classementPoints(){
         List<Map<Athlete, Double>> classement = new ArrayList<>();
             for (Athlete a : this.participants){
@@ -156,4 +156,6 @@ public class Epreuve {
                 + ", participants " + participants;
     }
     
+
 }
+

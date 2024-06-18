@@ -67,26 +67,28 @@ public class FenetreConnexion extends BorderPane{
         VBox vbCentre = new VBox();
         Label labelId = new Label("Identifiant");
         Label labelPasswd = new Label("Mot de passe");
-        Label labelInscri = new Label("Nouveau ?");
 
-        vbCentre.getChildren().addAll(labelId,this.tfId,labelPasswd,this.pwd,this.connexion,labelInscri,this.inscription);
-        vbCentre.setBackground(new Background(new BackgroundFill(Color.GAINSBORO,null,null)));
+
+        vbCentre.getChildren().addAll(labelId,this.tfId,labelPasswd,this.pwd,this.connexion,this.inscription);
         this.setCenter(vbCentre);
         vbCentre.setAlignment(Pos.CENTER);
-        VBox.setMargin(labelInscri, new Insets(15));
         VBox.setMargin(labelPasswd, new Insets(15));
         VBox.setMargin(this.connexion, new Insets(15));
         VBox.setMargin(tfId, new Insets(15));
         VBox.setMargin(pwd, new Insets(15));
+        VBox.setMargin(this.inscription, new Insets(20));
         BorderPane.setMargin(vbCentre, new Insets(20));
         this.tfId.setPromptText("Votre identifiant");
         this.pwd.setPromptText("Votre mot de passe");
         this.tfId.focusedProperty().addListener(new ControleurId(this.tfId));
+
+        vbCentre.setStyle("-fx-background-radius: 1em; -fx-background-color: whitesmoke");
+
         
     }
 
     public void modifieBorderPane(){
-        this.setBackground(new Background(new BackgroundFill(Color.ALICEBLUE, null,null)));
+        this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null,null)));
 
     }
 

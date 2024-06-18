@@ -1,7 +1,12 @@
 package vue;
 import vue.*;
+import participant.*;
+
+import java.sql.SQLException;
+import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 // import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,10 +16,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.input.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,9 +35,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
+
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.TableColumn;
 
 
 // javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -d bin/ src/vue/*.java
@@ -36,12 +50,19 @@ import javafx.scene.image.ImageView;
 public class FenetreJournaliste extends BorderPane{
     private Button connexion;
     private FenetreAccueil appli;
+
+    private Articles articles;
+
     
 
     public FenetreJournaliste(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
         this.appli = appli;
+
+        this.articles = new Articles(appli);
+        this.articles.creeArticleSport();
+
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();
@@ -94,11 +115,48 @@ public class FenetreJournaliste extends BorderPane{
         HBox.setMargin(tfRecherche, new Insets(10));
         HBox.setMargin(boutonRecherche, new Insets(10));
         hbRecherche.setAlignment(Pos.TOP_CENTER);
-        tfRecherche.focusedProperty().addListener(new ControleurRecherche(tfRecherche));
         tfRecherche.setPromptText("Pays, athlète...");
 
+    }
+    public void classement(){
+        try { List<Pays> listeClassement = this.appli.getBD().classement();
+            TableView<Pays> tableview = new TableView<>();
+            TableColumn<Pays, String> pays = new TableColumn<>("Pays");
+            TableColumn<Pays, String> medailleOr = new TableColumn<>("Medaille Or");
+            TableColumn<Pays, String> medailleArgent = new TableColumn<>("Medaille Argent");
+            TableColumn<Pays, String> medailleBronze = new TableColumn<>("Medaille Bronze");
+            pays.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            medailleOr.setCellValueFactory(new PropertyValueFactory<>("nbOr"));
+            medailleArgent.setCellValueFactory(new PropertyValueFactory<>("nbArgent"));
+            pays.setCellValueFactory(new PropertyValueFactory<>("nbBronze"));
+            tableview.getColumns().add(pays);
+            tableview.getColumns().add(medailleOr);
+            tableview.getColumns().add(medailleArgent);
+            tableview.getColumns().add(medailleBronze);
+            
+            for (Pays p : listeClassement){
+                tableview.getItems().add(p);
+            }
+            this.setCenter(tableview);
+        }
+        catch (SQLException e){
+            this.popUpErreurClassement(e).showAndWait();
+
+        }
 
     }
+    public void ajoutArticles(){
+        VBox vb = new VBox();
+        vb.getChildren().addAll(this.articles.get(0), this.articles.get(1));
+        this.setCenter(vb);
+        VBox.setMargin(this.articles.get(0), new Insets(15));
+    }
+    public Alert popUpErreurClassement(SQLException e){
+        Alert alert = new Alert(Alert.AlertType.ERROR,"Erreur dans la base de données\n"+e.getMessage(), ButtonType.OK);
+        alert.setTitle("Attention");
+        return alert;
+    }
+
 
     public void ajouteBottom(){
         this.setBottom(this.connexion);

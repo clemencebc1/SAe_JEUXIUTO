@@ -5,12 +5,13 @@ import java.util.ArrayList;
 public class Pays{
 
     private String nom;
-    private Integer num;
+
     private int nbOr;
 
     private int nbArgent;
 
     private int nbBronze;
+    private Integer num;
 
     private List<Athlete> lesAthletes;
 

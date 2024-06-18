@@ -29,6 +29,7 @@ public class ControleBouton implements EventHandler<ActionEvent>{
                     if (this.appli.getBD().estAdmin(id, pwd)){
                         this.appli.afficheFenetreAdmin();
                         this.appli.popUpConnexion().showAndWait();
+
                         
                     }
                     else if (this.appli.getBD().estJourna(id, pwd)){
@@ -49,6 +50,7 @@ public class ControleBouton implements EventHandler<ActionEvent>{
 }
     else if (button.getText().contains("Déconnexion")){
             this.appli.seConnecter();
+
     }
     else if (button.getText().contains("Inscription")){
         try {
