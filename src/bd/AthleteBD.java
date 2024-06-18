@@ -303,7 +303,7 @@ void lancerEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExceptio
 
 
 		}
-		ep.classement(comp, tri);
+		ep.classementPoint();
 }
 
 
