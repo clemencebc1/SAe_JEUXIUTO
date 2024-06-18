@@ -23,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Background;
@@ -48,17 +49,23 @@ import javafx.scene.control.ButtonType;
 public class FenetreAccueil extends Application {
     private Scene scene;
     private Button boutonConnexion;
+    private Button inscri;
     private FenetreConnexion fenetreCo;
     private FenetreJournaliste fenetreJourna;
+    private FenetreInscription fenetreInscription;
     private ConnexionMySQL connexionMySQL;
+    private AthleteBD bd;
     private Pane root;
 
     @Override
     public void init(){
 
         this.boutonConnexion = new Button("Connexion");
+        this.inscri = new Button("S'inscrire");
         this.boutonConnexion.setStyle("-fx-text-fill: #000000;"+"-fx-background-radius: 1em;");
+        this.inscri.setStyle("-fx-text-fill: #000000;"+"-fx-background-radius: 1em;");
         this.root = new Pane();
+        this.bd = new AthleteBD();
         try {
             this.connexionMySQL = new ConnexionMySQL();
             this.connexionMySQL.connecter("servinfo-maria","DBlobjois","lobjois","lobjois");
@@ -74,6 +81,7 @@ public class FenetreAccueil extends Application {
     @Override
     public void start(Stage stage) throws Exception{
         this.boutonConnexion.setOnAction(new ControleBouton(this));
+        this.inscri.setOnAction(new ControleBouton(this));
         this.scene = new Scene(this.root);
         this.seConnecter();
         System.out.println("1");
@@ -83,18 +91,25 @@ public class FenetreAccueil extends Application {
     }
 
     public void afficheFenetreJournaliste(){
-        this.fenetreJourna = new FenetreJournaliste(boutonConnexion);
+        this.fenetreJourna = new FenetreJournaliste(boutonConnexion, this);
         this.root= this.fenetreJourna;
         this.boutonConnexion.setText("Déconnexion");
 
         this.scene.setRoot(root);
     }
     public void seConnecter(){
-        this.fenetreCo = new FenetreConnexion(boutonConnexion);
+        this.fenetreCo = new FenetreConnexion(boutonConnexion, inscri);
        this.root = this.fenetreCo;
        this.boutonConnexion.setText("Connexion");
 
        this.scene.setRoot(root);
+    }
+
+    public void inscrire(){
+        this.fenetreInscription = new FenetreInscription(inscri,this);
+        this.root = this.fenetreInscription;
+        this.scene.setRoot(root);
+        
     }
 
     public Alert popUpErreurConnexion(){
@@ -126,6 +141,15 @@ public class FenetreAccueil extends Application {
         }
     public ConnexionMySQL getConnexionMySQL() {
         return connexionMySQL;
+    }
+    public FenetreInscription getFenetreInscription(){
+        return this.fenetreInscription;
+    }
+    public AthleteBD getBD(){
+        return this.bd;
+    }
+    public Button getButtonInscri(){
+        return this.inscri;
     }
     
 }

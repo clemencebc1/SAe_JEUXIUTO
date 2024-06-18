@@ -1,12 +1,18 @@
 package sport;
 import participant.*;
 import autre.*;
+import comparateur.ComparePoints;
+
+import java.util.Map.Entry;
 
 import java.util.List;
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Collections;
 
 public class Epreuve {
@@ -89,7 +95,7 @@ public class Epreuve {
     /** fournit un classement des pays
      * @return une liste de pays placés selon leurs résultats
      */
-    public List<?> classement(Comparator<Athlete> comp, Tri tri){
+    public List<?> classementMedaille(Comparator<Athlete> comp, Tri tri){
         List<Athlete> athletes = new ArrayList<>(this.participants);
         Collections.sort(athletes, comp);
         if (tri == Tri.PAYS){
@@ -110,9 +116,21 @@ public class Epreuve {
             }
             return equipe;
         }
+        else if (tri==Tri.EPREUVE){
+            return this.classementPoints();
+        }
         return athletes;
-
-
+    }
+    public List<Map<Athlete, Double>> classementPoints(){
+        List<Map<Athlete, Double>> classement = new ArrayList<>();
+            for (Athlete a : this.participants){
+                Map<Athlete, Double> points = new HashMap<>();
+                points.put(a, this.sport.calculeRes(a));
+                classement.add(points);
+            }
+            Comparator<Map<Athlete,Double>> comparateur = new ComparePoints();
+            Collections.sort(classement, comparateur);
+            return classement;
     }
 
     @Override

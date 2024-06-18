@@ -35,21 +35,22 @@ import javafx.scene.image.ImageView;
 
 public class FenetreJournaliste extends BorderPane{
     private Button connexion;
+    private FenetreAccueil appli;
     
 
-    public FenetreJournaliste(Button btn){
+    public FenetreJournaliste(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
+        this.appli = appli;
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();
-        this.ajouteCenter();
     }
 
     /** ajout de l'image
      */
     public void ajouteImage(){
-        ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg"));
+        ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg",150,100,false,false));
         this.setRight(imageJO);
     }
 
@@ -62,6 +63,7 @@ public class FenetreJournaliste extends BorderPane{
         Button athletisme = new Button("Athlétisme");
         Button handball = new Button("Handball");
         Button volleyball = new Button("Volley-Ball");
+        classement.setOnAction(new ControleurClassement(this.appli));
 
         classement.setStyle("-fx-background-radius: 1em;");
         natation.setStyle("-fx-background-radius: 1em;");
@@ -78,15 +80,22 @@ public class FenetreJournaliste extends BorderPane{
         HBox.setMargin(handball, new Insets(10));
         HBox.setMargin(volleyball, new Insets(10));
         hbChoix.setBackground(new Background(new BackgroundFill(Color.STEELBLUE, null,null)));
+        hbChoix.setAlignment(Pos.CENTER);
 
         this.setTop(hbChoix);
     
     }
-    public void ajouteCenter(){
+    public void recherche(){
         HBox hbRecherche = new HBox();
         TextField tfRecherche = new TextField();
         Button boutonRecherche = new Button("Rechercher");
         hbRecherche.getChildren().addAll(tfRecherche, boutonRecherche);
+        this.setCenter(hbRecherche);
+        HBox.setMargin(tfRecherche, new Insets(10));
+        HBox.setMargin(boutonRecherche, new Insets(10));
+        hbRecherche.setAlignment(Pos.TOP_CENTER);
+        tfRecherche.focusedProperty().addListener(new ControleurRecherche(tfRecherche));
+        tfRecherche.setPromptText("Pays, athlète...");
 
 
     }
@@ -94,6 +103,7 @@ public class FenetreJournaliste extends BorderPane{
     public void ajouteBottom(){
         this.setBottom(this.connexion);
         BorderPane.setAlignment(connexion, Pos.CENTER);
+        BorderPane.setMargin(connexion, new Insets(10));
     }
 
 }

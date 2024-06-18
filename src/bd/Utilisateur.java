@@ -5,10 +5,10 @@ public class Utilisateur{
     private String mdp;
     private String role;
 
-    public Utilisateur(String nom, String mdp, String role) {
+    public Utilisateur(String nom, String mdp) {
         this.nom = nom;
         this.mdp = mdp;
-        this.role = role;
+        this.role = "journaliste";
     }
 
     public String getNom() {

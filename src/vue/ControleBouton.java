@@ -23,19 +23,18 @@ public class ControleBouton implements EventHandler<ActionEvent>{
             String id = this.appli.getFenetreCo().getTfId().getText();
             String pwd = this.appli.getFenetreCo().getPwd().getText();
             try {
-                System.out.println("ok");
                 if (this.appli.getConnexionMySQL().isConnecte(id, pwd)){
-                    AthleteBD athleteBD = new AthleteBD();
-                    athleteBD.Athlete(this.appli.getConnexionMySQL());
-                    if (athleteBD.estAdmin(id, pwd)){
+                
+                    this.appli.getBD().Athlete(this.appli.getConnexionMySQL());
+                    if (this.appli.getBD().estAdmin(id, pwd)){
                         this.appli.popUpConnexion().showAndWait();
                         
                     }
-                    else if (athleteBD.estJourna(id, pwd)){
+                    else if (this.appli.getBD().estJourna(id, pwd)){
                         this.appli.afficheFenetreJournaliste();
                         this.appli.popUpConnexion().showAndWait();
                     }
-                    else if (athleteBD.estOrga(id, pwd)){
+                    else if (this.appli.getBD().estOrga(id, pwd)){
                         this.appli.popUpConnexion().showAndWait();
 
                     }
@@ -49,6 +48,25 @@ public class ControleBouton implements EventHandler<ActionEvent>{
 }
     else if (button.getText().contains("Déconnexion")){
             this.appli.seConnecter();
+    }
+    else if (button.getText().contains("Inscription")){
+        try {
+            this.appli.getBD().Athlete(this.appli.getConnexionMySQL());
+            this.appli.getBD().insererUser(new Utilisateur(this.appli.getFenetreInscription().getTfId().getText(), this.appli.getFenetreInscription().getTfId().getText()));
+            this.appli.popUpConnexion().showAndWait();
+            this.appli.afficheFenetreJournaliste();
+            button.setText("S'inscire");
+
+        }
+        catch (SQLException e){
+            this.appli.getFenetreInscription().popUpIdPresent().showAndWait();
+
+        }
+
+    }
+    else {
+        button.setText("Inscription");
+        this.appli.inscrire();
     }
     
     }

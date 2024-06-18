@@ -2,6 +2,7 @@ package bd;
 import sport.*;
 import participant.*;
 import java.sql.*;
+import bd.*;
 import autre.*;
 import comparateur.*;
 import java.util.ArrayList;
@@ -187,14 +188,14 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		return nouvNum;
 	}
 
-	void insererParticipation(Athlete a, Epreuve e)throws SQLException{
+	public void insererParticipation(Athlete a, Epreuve e)throws SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into PARTICIPER(id_A,id_Ep) values (?,?)");
 		ps.setInt(1, getNumAthlete(a));
 		ps.setInt(2, getNumEpreuve(e));
 		ps.executeUpdate();
 	}
 
-	void insererUser(Utilisateur user) throws SQLException{
+	public void insererUser(Utilisateur user) throws SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into USER(nom_U,mdp_U,role_u) values (?,?,?)");
 		ps.setString(1, user.getNom());
 		ps.setString(2, user.getMdp());

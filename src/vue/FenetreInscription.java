@@ -15,7 +15,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -30,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 
 
@@ -37,30 +40,24 @@ import javafx.scene.image.ImageView;
 // java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -cp bin vue.FenetreAccueil
 
 
-public class FenetreConnexion extends BorderPane{
-    private Button connexion;
+public class FenetreInscription extends BorderPane{
     private Button inscription;
     private TextField tfId;
     private PasswordField pwd;
+    private FenetreAccueil fenetreAccueil;
 
 
-    public FenetreConnexion(Button btn, Button inscri){
+    public FenetreInscription(Button inscri, FenetreAccueil fenetreAccueil){
         super();
-        this.connexion = btn;
-        this.inscription = inscri;
         this.tfId = new TextField();
+        this.inscription = inscri;
+        this.fenetreAccueil = fenetreAccueil;
         this.pwd = new PasswordField();
         this.ajouteCenter();
-        this.ajouteImage();
+        this.ajouteTop();
         this.modifieBorderPane();
     }
 
-    /** ajout de l'image
-     */
-    public void ajouteImage(){
-        ImageView imageJO = new ImageView(new Image("file:./img/logo-paris-2024.jpg"));
-        this.setRight(imageJO);
-    }
 
 
     public void ajouteCenter(){
@@ -69,28 +66,41 @@ public class FenetreConnexion extends BorderPane{
         Label labelPasswd = new Label("Mot de passe");
         Label labelInscri = new Label("Nouveau ?");
 
-        vbCentre.getChildren().addAll(labelId,this.tfId,labelPasswd,this.pwd,this.connexion,labelInscri,this.inscription);
+        vbCentre.getChildren().addAll(labelId,this.tfId,labelPasswd,this.pwd,this.inscription);
         vbCentre.setBackground(new Background(new BackgroundFill(Color.GAINSBORO,null,null)));
         this.setCenter(vbCentre);
         vbCentre.setAlignment(Pos.CENTER);
         VBox.setMargin(labelInscri, new Insets(15));
         VBox.setMargin(labelPasswd, new Insets(15));
-        VBox.setMargin(this.connexion, new Insets(15));
+        VBox.setMargin(this.inscription, new Insets(15));
         VBox.setMargin(tfId, new Insets(15));
         VBox.setMargin(pwd, new Insets(15));
         BorderPane.setMargin(vbCentre, new Insets(20));
         this.tfId.setPromptText("Votre identifiant");
         this.pwd.setPromptText("Votre mot de passe");
         this.tfId.focusedProperty().addListener(new ControleurId(this.tfId));
+    
         
+    }
+
+    public void ajouteTop(){
+        Button buttonRetour = new Button("Retour");
+        this.setTop(buttonRetour);
+        buttonRetour.setStyle("-fx-text-fill: #000000;"+"-fx-background-radius: 1em;");
+        buttonRetour.setOnAction(new ControleBoutonRetour(fenetreAccueil));
     }
 
     public void modifieBorderPane(){
         this.setBackground(new Background(new BackgroundFill(Color.ALICEBLUE, null,null)));
 
     }
+    public Alert popUpIdPresent(){
+        Alert alert = new Alert(Alert.AlertType.ERROR,"L'identifiant existe déjà", ButtonType.OK);
+        alert.setTitle("Attention");
+        return alert;
+    }
 
-    public FenetreConnexion fenetre(){
+    public FenetreInscription fenetre(){
         return this;
     }
     public TextField getTfId() {
