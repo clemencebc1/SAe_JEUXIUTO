@@ -1,16 +1,28 @@
+package participant;
+import sport.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Equipe implements Participant{
     private String nom;
+    private Integer num;
     private List<Athlete> lesAthletes; 
 
     public Equipe(String nom) {
         this.nom = nom;
+        this.num = null;
         lesAthletes = new ArrayList<>();
+    }
+    public Equipe(String nom, Integer num){
+        this.nom = nom;
+        this.num = num;
     }
 
     // getters
+    public Integer getNum(){
+        return this.num;
+    }
     public String getNom() {
         return nom;
     }
@@ -25,13 +37,12 @@ public class Equipe implements Participant{
 
     @Override
     public double participer(Epreuve e){
-        double res = 0;
-        for (Athlete athlete : lesAthletes) {
-           res = res + athlete.participer(e);
-           e.ajoutParticipants(athlete);
-        }
-    
-        return res = 0;
+        e.ajoutParticipants(this);
+        return e.getSport().calculeRes(this);
+    }
+    @Override
+    public String toString(){
+        return this.nom+"";
     }
 
     
