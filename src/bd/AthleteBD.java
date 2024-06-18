@@ -304,6 +304,40 @@ void lancerEpreuve(Epreuve e)throws SQLException{
 
 		}
 		ep.classementPoint();
+		Map<Athlete,Double> numero1 = classement.get(0);
+            	Map<Athlete,Double> numero2 = classement.get(1);
+            	Map<Athlete,Double> numero3 = classement.get(2);
+            	Set<Athlete> num1 = numero1.keySet();
+            	Set<Athlete> num2 = numero2.keySet();
+            	Set<Athlete> num3 = numero3.keySet();
+            	for (Athlete a : num1){
+                	Pays pays1 = a.getPays();
+			
+			PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE PAYS SET nbOr = ? where id_P = ? and nom_P = ?" );
+			ps.setString(1, pays1.getNbOr() + 1;);
+			ps.setString(2, pays1.getNum());
+			ps.setString(3, pays1.getNom());
+			ps.executeUpdate();
+			
+		}
+            	for (Athlete a : num2){
+                	Pays pays2 = a.getPays();
+			PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE PAYS SET nbArgent = ? where id_P = ? and nom_P = ?" );
+			ps.setString(1, pays2.getNbArgent() + 1;);
+			ps.setString(2, pays2.getNum());
+			ps.setString(3, pays2.getNom());
+			ps.executeUpdate();
+				
+            	}
+            	for (Athlete a : num3){
+                	Pays pays3 = a.getPays();
+			PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE PAYS SET nbBronze = ? where id_P = ? and nom_P = ?" );
+			ps.setString(1, pays2.getNbBronze() + 1;);
+			ps.setString(2, pays2.getNum());
+			ps.setString(3, pays2.getNom());
+			ps.executeUpdate();
+            	}
+		 
 }
 
 
