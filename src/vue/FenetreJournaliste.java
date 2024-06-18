@@ -75,7 +75,7 @@ public class FenetreJournaliste extends BorderPane{
         this.setRight(imageJO);
     }
 
-
+/*ajoute les choix de pages*/
     public void ajouteTop(){
         HBox hbChoix = new HBox();
         Button classement = new Button("Classement");
@@ -106,6 +106,7 @@ public class FenetreJournaliste extends BorderPane{
         this.setTop(hbChoix);
     
     }
+    /*ajoute les choix de recherche pour le classement*/
     public void recherche(){
         HBox hbRecherche = new HBox();
         TextField tfRecherche = new TextField();
@@ -118,6 +119,7 @@ public class FenetreJournaliste extends BorderPane{
         tfRecherche.setPromptText("Pays, athlète...");
 
     }
+    /*creer un tableau avec le classement*/
     public void classement(){
         try { List<Pays> listeClassement = this.appli.getBD().classement();
             TableView<Pays> tableview = new TableView<>();
@@ -128,7 +130,7 @@ public class FenetreJournaliste extends BorderPane{
             pays.setCellValueFactory(new PropertyValueFactory<>("nom"));
             medailleOr.setCellValueFactory(new PropertyValueFactory<>("nbOr"));
             medailleArgent.setCellValueFactory(new PropertyValueFactory<>("nbArgent"));
-            pays.setCellValueFactory(new PropertyValueFactory<>("nbBronze"));
+            medailleBronze.setCellValueFactory(new PropertyValueFactory<>("nbBronze"));
             tableview.getColumns().add(pays);
             tableview.getColumns().add(medailleOr);
             tableview.getColumns().add(medailleArgent);
@@ -145,12 +147,14 @@ public class FenetreJournaliste extends BorderPane{
         }
 
     }
+    /*ajout d'articles en lien avec les actualites JO*/
     public void ajoutArticles(){
         VBox vb = new VBox();
         vb.getChildren().addAll(this.articles.get(0), this.articles.get(1));
         this.setCenter(vb);
         VBox.setMargin(this.articles.get(0), new Insets(15));
     }
+    
     public Alert popUpErreurClassement(SQLException e){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Erreur dans la base de données\n"+e.getMessage(), ButtonType.OK);
         alert.setTitle("Attention");
