@@ -266,7 +266,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 
 ////////////////////////////////////// ORGANISATEUR //////////////////////////////////////
 
-void lancerEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLException{
+void lancerEpreuve(Epreuve e)throws SQLException{
 	PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E from ATHLETE natural join PARTICIPER natural join EPREUVE where id_Ep =" + e.getNum());
 	ResultSet rs = ps.executeQuery();
 	Epreuve ep = new Epreuve(e.getNom(), e.getCategorie(), e.getStyle(), e.getSport(), e.getNum());
