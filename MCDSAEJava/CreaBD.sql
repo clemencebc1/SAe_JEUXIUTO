@@ -40,7 +40,7 @@ CREATE TABLE EQUIPE (
 );
 
 CREATE TABLE ATHLETE (
-  id_A     INT NOT NULL PRIMARY KEY,
+  id_A     INT NOT NULL ,
   nom_A     VARCHAR(20),
   prenom_A  VARCHAR(20),
   sexe_A    VARCHAR(1),
@@ -48,7 +48,8 @@ CREATE TABLE ATHLETE (
   force_A    INT,
   endurance INT,
   agilite  INT,
-  id_E INT
+  id_E INT,
+  PRIMARY KEY(id_A,nom_A,prenom_A,sexe_A,id_P)
 );
 
 CREATE TABLE PARTICIPER (
