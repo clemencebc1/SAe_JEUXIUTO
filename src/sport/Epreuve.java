@@ -121,6 +121,7 @@ public class Epreuve {
         }
         return athletes;
     }
+    
     public List<Map<Athlete, Double>> classementPoints(){
         List<Map<Athlete, Double>> classement = new ArrayList<>();
             for (Athlete a : this.participants){
@@ -130,7 +131,23 @@ public class Epreuve {
             }
             Comparator<Map<Athlete,Double>> comparateur = new ComparePoints();
             Collections.sort(classement, comparateur);
+            Map<Athlete,Double> numero1 = classement.get(0);
+            Map<Athlete,Double> numero2 = classement.get(1);
+            Map<Athlete,Double> numero3 = classement.get(2);
+            Set<Athlete> num1 = numero1.keySet();
+            Set<Athlete> num2 = numero2.keySet();
+            Set<Athlete> num3 = numero3.keySet();
+            for (Athlete a : num1){
+                a.getPays().setNbOr(a.getPays().getNbOr() + 1)
+            }
+            for (Athlete a : num2){
+                a.getPays().setNbArgent(a.getPays().getNbArgent() + 1)
+            }
+            for (Athlete a : num3){
+                a.getPays().setNbBronze(a.getPays().getNbBronze() + 1)
+            }
             return classement;
+            
     }
 
     @Override
