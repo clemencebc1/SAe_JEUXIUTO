@@ -43,6 +43,7 @@ public class FenetreJournaliste extends BorderPane{
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();
+        this.ajouteCenter();
     }
 
     /** ajout de l'image
