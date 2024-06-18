@@ -17,12 +17,14 @@ public class Epreuve {
     /** le style de l'epreuve */
     private String style;
     private Sport sport;
+    private Integer num;
     private List<Athlete> participants;
     private static List<Epreuve> epreuves; // à chaque nouvelle epreuve on l'ajoute à une liste d'epreuve existente
-    public Epreuve(String nom, String cat, String style, Sport sport){
+    public Epreuve(String nom, String cat, String style, Sport sport,Integer num){
         this.nom = nom;
         this.categorie = cat;
         this.style = style;
+        this.num = num;
         this.participants = new ArrayList<>();
     }
 
@@ -32,6 +34,9 @@ public class Epreuve {
     }
     public String getCategorie(){
         return this.categorie;
+    }
+    public Integer getNum() {
+        return num;
     }
     public String getStyle(){
         return this.style;

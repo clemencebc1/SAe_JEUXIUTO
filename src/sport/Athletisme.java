@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Athletisme extends Sport {
     public Athletisme(String nom, String milieu){
-        super(nom, milieu);
+        super(nom, milieu,2);
         
     }
     @Override

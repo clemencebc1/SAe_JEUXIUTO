@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Natation extends Sport {
     public Natation(String nom, String milieu){
-        super(nom, milieu);
+        super(nom, milieu,1);
         
     }
     @Override

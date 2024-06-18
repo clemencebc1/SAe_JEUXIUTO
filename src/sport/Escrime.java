@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Escrime extends Sport {
     public Escrime(String nom, String milieu){
-        super(nom, milieu);
+        super(nom, milieu,3);
         
     }
     @Override

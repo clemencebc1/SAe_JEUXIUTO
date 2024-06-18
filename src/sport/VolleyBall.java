@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class VolleyBall extends Sport {
     public VolleyBall(String nom, String milieu){
-        super(nom, milieu);
+        super(nom, milieu,4);
         
     }
     @Override
