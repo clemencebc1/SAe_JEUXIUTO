@@ -5,10 +5,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -d bin/ src/bd/*.java src/participant/*.java src/sport/*.java src/autre/*.java src/comparateur/*.java
+
 public class AthleteBD {
 	ConnexionMySQL laConnexion;
 	Statement st;
-	void Athlete(ConnexionMySQL laConnexion){
+	public void Athlete(ConnexionMySQL laConnexion){
 		this.laConnexion = laConnexion;
 	}
 	int maxNumAthlete() throws SQLException{
@@ -23,7 +25,7 @@ public class AthleteBD {
 	}
 
 	/** C'est mieux que insererJoueur_old */
-	int insererAthlete( Athlete j) throws  SQLException{
+	int insererAthlete( participant.Athlete j) throws  SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into ATHLETE(id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E) values (?,?,?,?,?,?,?,?,?)");
 		int nouvNum = maxNumAthlete()+1;
 		ps.setInt(1, nouvNum);
@@ -67,6 +69,43 @@ public class AthleteBD {
 				return maxnum;
 			}
 			return -1;
+	}
+	public boolean estAdmin(String log, String mdp) throws SQLException{
+		log = "'"+log+"'";
+		mdp = "'"+mdp+"'";
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("SELECT role_u FROM USER where nom_U ="+log+"and mdp_U="+mdp);
+		if (rs.next()){
+			if (rs.getString("role_U").equals("admin")){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean estOrga(String log, String mdp) throws SQLException{
+		log = "'"+log+"'";
+		mdp = "'"+mdp+"'";
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("SELECT role_u FROM USER where nom_U ="+log+"and mdp_U="+mdp);
+		if (rs.next()){
+			if (rs.getString("role_U").equals("organisateur")){
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean estJourna(String log, String mdp) throws SQLException{
+		log = "'"+log+"'";
+		mdp = "'"+mdp+"'";
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("SELECT role_u FROM USER where nom_U ="+log+"and mdp_U="+mdp);
+		if (rs.next()){
+			if (rs.getString("role_U").equals("journaliste")){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	int maxNumPays() throws SQLException{
