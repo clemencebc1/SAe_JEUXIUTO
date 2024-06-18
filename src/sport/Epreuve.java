@@ -138,13 +138,13 @@ public class Epreuve {
             Set<Athlete> num2 = numero2.keySet();
             Set<Athlete> num3 = numero3.keySet();
             for (Athlete a : num1){
-                a.getPays().setNbOr(a.getPays().getNbOr() + 1)
+                a.getPays().setNbOr(a.getPays().getNbOr() + 1);
             }
             for (Athlete a : num2){
-                a.getPays().setNbArgent(a.getPays().getNbArgent() + 1)
+                a.getPays().setNbArgent(a.getPays().getNbArgent() + 1);
             }
             for (Athlete a : num3){
-                a.getPays().setNbBronze(a.getPays().getNbBronze() + 1)
+                a.getPays().setNbBronze(a.getPays().getNbBronze() + 1);
             }
             return classement;
             
