@@ -48,6 +48,7 @@ public class FenetreAdmin extends BorderPane{
     private TextField tendurance;
     private TextField tagilite;
     private TextField tequipe;
+    // private TableView<Athlete> tableview;
 
     public FenetreAdmin(Button btn,FenetreAccueil appli){
         super();
@@ -59,13 +60,13 @@ public class FenetreAdmin extends BorderPane{
         
     }
 
-
+    // ajoute les images
     public void ajouteImage(){
         ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg"));
         this.setRight(imageJO);
     }
 
-
+    // ajoute la naviguation 
     public void ajouteTop(){
         HBox HTop = new HBox();
         Button saisir = new Button("Saisir données");
@@ -89,6 +90,7 @@ public class FenetreAdmin extends BorderPane{
         this.setTop(HTop);
     
     }
+    // choix de saisie des données
     public void saisirDonnees(){
         HBox hbSaisirDonnees = new HBox();
         Button athlete = new Button("ajoutez un athlète");
@@ -102,43 +104,45 @@ public class FenetreAdmin extends BorderPane{
 
 
     }
-
+// saisie des données pour un athlete
     public void saisirDonneesAthlete(){
+        // BorderPane bpSaisieAthlete = new BorderPane(); 
         VBox vbSaisirDonnees = new VBox();
 
         HBox hnom = new HBox();
-        Label lnom = new Label("Nom");
+        
         this.tnom = new TextField();
+        this.tnom.setPromptText("Nom athlete");
         hnom.getChildren().addAll(lnom,tnom);
         hnom.setMargin(lnom, new Insets(10)); 
         hnom.setMargin(tnom, new Insets(10));
 
         HBox hprenom = new HBox();
-        Label lprenom = new Label("Prénom");
         this.tprenom = new TextField();
+        this.tprenom.setPromptText("Prenom athlete");
         hprenom.getChildren().addAll(lprenom,tprenom);
         hprenom.setMargin(lprenom, new Insets(10)); 
         hprenom.setMargin(tprenom, new Insets(10));
 
         HBox hsexe = new HBox();
-        Label lsexe = new Label("Sexe");
         this.tsexe = new TextField();
+        this.tsexe.setPromptText("Sexe athlete");
         hsexe.getChildren().addAll(lsexe,tsexe);
         hsexe.setMargin(lsexe, new Insets(10)); 
         hsexe.setMargin(tsexe, new Insets(10));
 
 
         HBox hpays = new HBox();
-        Label lpays = new Label("Pays");
         this.tpays = new TextField();
+        this.tpays.setPromptText("Pays athlete");
         hpays.getChildren().addAll(lpays,tpays);
         hpays.setMargin(lpays, new Insets(10)); 
         hpays.setMargin(tpays, new Insets(10));
 
 
         HBox hforce = new HBox();
-        Label lforce = new Label("Force");
         this.tforce = new TextField();
+        this.tforce.setPromptText("Force athlete");
         hforce.getChildren().addAll(lforce,tforce);
         tforce.focusedProperty().addListener(new ControleurFieldNB(tforce));
         hforce.setMargin(lforce, new Insets(10)); 
@@ -146,9 +150,8 @@ public class FenetreAdmin extends BorderPane{
 
 
         HBox hendurance = new HBox();
-
-        Label lendurance = new Label("Endurance");
         this.tendurance = new TextField();
+        this.tendurance.setPromptText("Endurance athlete");
         tendurance.focusedProperty().addListener(new ControleurFieldNB(tendurance));
         hendurance.getChildren().addAll(lendurance,tendurance);
         hendurance.setMargin(lendurance, new Insets(10)); 
@@ -156,8 +159,8 @@ public class FenetreAdmin extends BorderPane{
 
 
         HBox hagilite = new HBox();
-        Label lagilite = new Label("Agilité");
         this.tagilite = new TextField();
+        this.tagilite.setPromptText("Agilite athlete");
         tagilite.focusedProperty().addListener(new ControleurFieldNB(tagilite));
         hagilite.getChildren().addAll(lagilite,tagilite);
         hagilite.setMargin(lagilite, new Insets(10)); 
@@ -165,8 +168,8 @@ public class FenetreAdmin extends BorderPane{
 
 
         HBox hequipe = new HBox();
-        Label lequipe = new Label("Equipe");
         this.tequipe = new TextField();
+        this.tequipe.setPromptText("Equipe athlete);
         hequipe.getChildren().addAll(lnom,tequipe);
         hequipe.setMargin(lequipe, new Insets(10)); 
         hequipe.setMargin(tequipe, new Insets(10));
@@ -177,17 +180,47 @@ public class FenetreAdmin extends BorderPane{
         vbSaisirDonnees.getChildren().addAll(hnom,hprenom,hsexe,hpays,hforce,hendurance,hagilite,hequipe,creer);
         vbSaisirDonnees.setAlignment(Pos.CENTER);
         this.setCenter(vbSaisirDonnees);
-
+        // bpSaisieAthlete.setBottom(vbSaisirDonnees);
+        /* this.tableview = new TableView<>();
+            TableColumn<Athlete, String> nom = new TableColumn<>("Nom");
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> sexe = new TableColumn<>("Sexe");
+            TableColumn<Athlete, String> pays = new TableColumn<>("Pays");
+            TableColumn<Athlete, String> force = new TableColumn<>("Force");
+            TableColumn<Athlete, String> endurance = new TableColumn<>("Endurance");
+            TableColumn<Athlete, String> agilite = new TableColumn<>("Agilite");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            sexe.setCellValueFactory(new PropertyValueFactory<>("sexe"));
+            pays.setCellValueFactory(new PropertyValueFactory<>("pays"));
+            force.setCellValueFactory(new PropertyValueFactory<>("force"));
+            endurance.setCellValueFactory(new PropertyValueFactory<>("endurance"));
+            agilite.setCellValueFactory(new PropertyValueFactory<>("agilite"));
+            tableview.getColumns().add(nom);
+            tableview.getColumns().add(prenom);
+            tableview.getColumns().add(sexe);
+            tableview.getColumns().add(pays);
+            tableview.getColumns().add(force);
+            tableview.getColumns().add(endurance);
+            tableview.getColumns().add(agilite);
+            bpSaisieAthlete.setCenter(tableview);*/
 
     }
-    
+    public Alert popUpNombreException(){
+        Alert alert = new Alert(Alert.AlertType.ERROR,"Erreur, veuillez entrer un nombre", ButtonType.OK);
+        alert.setTitle("Attention");
+        return alert;}
+    /*
+    public TableView<Athlete> getTableView(){
+        return this.tableview;
+    }*/
 
     public void ajouteBottom(){
         this.setBottom(this.connexion);
         BorderPane.setAlignment(connexion, Pos.CENTER);
     }
 
-
+// getters et setters
     public Button getConnexion() {
         return connexion;
     }
