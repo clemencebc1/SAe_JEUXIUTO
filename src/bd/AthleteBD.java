@@ -303,7 +303,7 @@ void lancerEpreuve(Epreuve e)throws SQLException{
 
 
 		}
-		List<Map<Athlete,Double> classement = ep.classementPoint();
+		List<Map<Athlete,Double>> classement = ep.classementPoint();
 		Map<Athlete,Double> numero1 = classement.get(0);
             	Map<Athlete,Double> numero2 = classement.get(1);
             	Map<Athlete,Double> numero3 = classement.get(2);
