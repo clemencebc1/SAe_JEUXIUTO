@@ -93,7 +93,7 @@ public class FenetreAccueil extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    // modification du root pour afficher la fenetre journaliste si connecté
     public void afficheFenetreJournaliste(){
         this.fenetreJourna = new FenetreJournaliste(boutonConnexion, this);
         this.root= this.fenetreJourna;
@@ -101,6 +101,7 @@ public class FenetreAccueil extends Application {
 
         this.scene.setRoot(root);
     }
+    // modification du root pour afficher la fenetre de connexion
     public void seConnecter(){
         this.fenetreCo = new FenetreConnexion(boutonConnexion, inscri);
        this.root = this.fenetreCo;
@@ -108,13 +109,14 @@ public class FenetreAccueil extends Application {
 
        this.scene.setRoot(root);
     }
-
+// modification du root pour afficher la fenetre d'inscription
     public void inscrire(){
         this.fenetreInscription = new FenetreInscription(inscri,this);
         this.root = this.fenetreInscription;
         this.scene.setRoot(root);
         
     }
+    // si administrateur, affiche la page 
     public void afficheFenetreAdmin(){
         this.fenetreAdmin = new FenetreAdmin(boutonConnexion, this);
         this.root= this.fenetreAdmin;
