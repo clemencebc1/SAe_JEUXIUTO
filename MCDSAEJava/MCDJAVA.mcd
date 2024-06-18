@@ -1,0 +1,26 @@
+:
+:
+DF, 11 EPREUVE, 0N SPORT
+SPORT: id_S,nom,milieu
+:
+:
+:
+:
+
+EQUIPE: id_E,nom_E,sexe_E
+PARTICIPER, 0N [responsable] ATHLETE, 1N EPREUVE, ON EQUIPE
+EPREUVE: id_Ep,nom,categorie
+:
+:
+:
+:
+:
+
+COMPOSER, ON ATHLETE, 1N EQUIPE
+ATHLETE: id_A, nom_A,prenom_A,sexe_A,force_A,endurance,agilite
+DF,0N PAYS, 11 ATHLETE
+PAYS: id_P, nom_P,nb_Or,nb_Argent,nb_Bronze
+:
+:
+:
+USER: nom_U,mdp_U,role_U

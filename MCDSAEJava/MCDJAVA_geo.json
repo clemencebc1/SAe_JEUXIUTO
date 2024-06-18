@@ -1,0 +1,40 @@
+{
+  "width": 601,
+  "height": 371,
+  "cx": [
+    [ "DF0", 276 ],
+    [ "SPORT", 364 ],
+    [ "EQUIPE", 51 ],
+    [ "PARTICIPER", 164 ],
+    [ "EPREUVE", 276 ],
+    [ "COMPOSER", 51 ],
+    [ "ATHLETE", 164 ],
+    [ "DF1", 276 ],
+    [ "PAYS", 364 ],
+    [ "USER", 565 ]
+  ],
+  "cy": [
+    [ "DF0", 51 ],
+    [ "SPORT", 51 ],
+    [ "EQUIPE", 160 ],
+    [ "PARTICIPER", 160 ],
+    [ "EPREUVE", 160 ],
+    [ "COMPOSER", 286 ],
+    [ "ATHLETE", 286 ],
+    [ "DF1", 286 ],
+    [ "PAYS", 286 ],
+    [ "USER", 286 ]
+  ],
+  "shift": [
+    [ "DF0,EPREUVE,0", 0 ],
+    [ "DF0,SPORT,0", 0 ],
+    [ "PARTICIPER,ATHLETE,0", 0 ],
+    [ "PARTICIPER,EPREUVE,0", 0 ],
+    [ "PARTICIPER,EQUIPE,0", 0 ],
+    [ "COMPOSER,ATHLETE,0", 0 ],
+    [ "COMPOSER,EQUIPE,0", 0 ],
+    [ "DF1,PAYS,0", 0 ],
+    [ "DF1,ATHLETE,0", 0 ]
+  ],
+  "ratio": []
+}
