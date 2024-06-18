@@ -50,7 +50,7 @@ public class ControleBouton implements EventHandler<ActionEvent>{
 }
     else if (button.getText().contains("Déconnexion")){
             this.appli.seConnecter();
-            
+
     }
     else if (button.getText().contains("Inscription")){
         try {

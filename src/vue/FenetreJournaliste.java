@@ -35,6 +35,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
+
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
@@ -49,15 +50,19 @@ import javafx.scene.control.TableColumn;
 public class FenetreJournaliste extends BorderPane{
     private Button connexion;
     private FenetreAccueil appli;
+
     private Articles articles;
+
     
 
     public FenetreJournaliste(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
         this.appli = appli;
+
         this.articles = new Articles(appli);
         this.articles.creeArticleSport();
+
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();
@@ -151,6 +156,7 @@ public class FenetreJournaliste extends BorderPane{
         alert.setTitle("Attention");
         return alert;
     }
+
 
     public void ajouteBottom(){
         this.setBottom(this.connexion);

@@ -68,6 +68,7 @@ public class FenetreConnexion extends BorderPane{
         Label labelId = new Label("Identifiant");
         Label labelPasswd = new Label("Mot de passe");
 
+
         vbCentre.getChildren().addAll(labelId,this.tfId,labelPasswd,this.pwd,this.connexion,this.inscription);
         this.setCenter(vbCentre);
         vbCentre.setAlignment(Pos.CENTER);
@@ -80,7 +81,9 @@ public class FenetreConnexion extends BorderPane{
         this.tfId.setPromptText("Votre identifiant");
         this.pwd.setPromptText("Votre mot de passe");
         this.tfId.focusedProperty().addListener(new ControleurId(this.tfId));
+
         vbCentre.setStyle("-fx-background-radius: 1em; -fx-background-color: whitesmoke");
+
         
     }
 

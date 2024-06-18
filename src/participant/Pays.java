@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Pays{
 
     private String nom;
+
     private int nbOr;
 
     private int nbArgent;

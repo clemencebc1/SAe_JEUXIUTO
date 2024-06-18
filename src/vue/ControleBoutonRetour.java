@@ -16,7 +16,7 @@ public class ControleBoutonRetour implements EventHandler<ActionEvent>{
     @Override
     public void handle(ActionEvent event){
         this.appli.seConnecter();
-        this.appli.getButtonInscri().setText("S'inscrire");
+
 
 
     }

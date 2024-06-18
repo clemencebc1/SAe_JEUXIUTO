@@ -48,12 +48,15 @@ import javafx.scene.control.ButtonType;
 
 public class FenetreAccueil extends Application {
     private Scene scene;
+
     private FenetreAdmin fenetreAdmin;
+
     private Button boutonConnexion;
     private Button inscri;
     private FenetreConnexion fenetreCo;
     private FenetreJournaliste fenetreJourna;
     private FenetreInscription fenetreInscription;
+
     private ConnexionMySQL connexionMySQL;
     private AthleteBD bd;
     private Pane root;
@@ -155,6 +158,10 @@ public class FenetreAccueil extends Application {
     }
     public AthleteBD getBD(){
         return this.bd;
+    }
+
+    public FenetreAdmin getFenetreAdmin(){
+        return this.fenetreAdmin;
     }
     public Button getButtonInscri(){
         return this.inscri;
