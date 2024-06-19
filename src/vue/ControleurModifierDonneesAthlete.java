@@ -7,16 +7,15 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent ;
 import javafx.scene.control.Button;
 
-public class ControleBoutonRetour implements EventHandler<ActionEvent>{
+public class ControleurModifierDonneesAthlete implements EventHandler<ActionEvent>{
     private FenetreAccueil appli;
-    public ControleBoutonRetour(FenetreAccueil appli){
+    public ControleurModifierDonneesAthlete(FenetreAccueil appli){
         this.appli=appli;
     }
 
     @Override
     public void handle(ActionEvent event){
-        this.appli.seConnecter();
-        this.appli.getButtonInscri().setText("S'inscrire");
+        this.appli.getFenetreAdmin().modifDonneesAthlete();
 
 
     }
