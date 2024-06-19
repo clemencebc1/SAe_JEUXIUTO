@@ -11,7 +11,7 @@ public class Athlete implements Participant{
     private Pays pays;
     private Equipe equipe;
     private Integer num;
-    public Athlete(String nom, String prenom, String sexe, int force, int agilite, int endurance, Pays pays, Integer num){
+    public Athlete(String nom, String prenom, String sexe, int force, int agilite, int endurance, Pays pays){
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
@@ -20,7 +20,7 @@ public class Athlete implements Participant{
         this.endurance = endurance;
         this.pays = pays;
         this.equipe = null;
-        this.num = num;
+        this.num = null;
     }
     public Athlete(String nom, String prenom, String sexe, int force, int agilite, int endurance, Pays pays, Equipe equipe,Integer num){
         this.nom = nom;
@@ -32,6 +32,18 @@ public class Athlete implements Participant{
         this.pays = pays;
         this.equipe = equipe;
         this.num = num;
+    }
+
+    public Athlete(String nom, String prenom, String sexe, int force, int agilite, int endurance, Pays pays,Equipe equipe){
+        this.nom = nom;
+        this.prenom = prenom;
+        this.sexe = sexe;
+        this.force = force;
+        this.agilite = agilite;
+        this.endurance = endurance;
+        this.pays = pays;
+        this.equipe = equipe;
+        this.num = null;
     }
     public Equipe getEquipe(){
         return this.equipe;
