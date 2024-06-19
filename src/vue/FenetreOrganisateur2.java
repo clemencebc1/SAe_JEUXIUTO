@@ -216,7 +216,7 @@ public class FenetreOrganisateur2 extends BorderPane {
                 char lettre = selectedCategory.charAt(selectedCategory.length()-1);
                 break;
         }
-        
+
     }
 
     public void ajouteBottom() {
