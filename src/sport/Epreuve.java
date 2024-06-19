@@ -21,15 +21,14 @@ public class Epreuve {
     /** la categorie de l'epreuve */
     private String categorie;
     /** le style de l'epreuve */
-    private String style;
+
     private Sport sport;
     private Integer num;
     private List<Athlete> participants;
     private static List<Epreuve> epreuves; // à chaque nouvelle epreuve on l'ajoute à une liste d'epreuve existente
-    public Epreuve(String nom, String cat, String style, Sport sport,Integer num){
+    public Epreuve(String nom, String cat, Sport sport,Integer num){
         this.nom = nom;
         this.categorie = cat;
-        this.style = style;
         this.num = num;
         this.participants = new ArrayList<>();
     }
@@ -44,9 +43,7 @@ public class Epreuve {
     public Integer getNum() {
         return num;
     }
-    public String getStyle(){
-        return this.style;
-    }
+
     public List<Athlete> getParticipants(){
         return this.participants;
     }
@@ -66,9 +63,6 @@ public class Epreuve {
     }
     public void setCategorie(String categorie) {
         this.categorie = categorie;
-    }
-    public void setStyle(String style) {
-        this.style = style;
     }
     public void setSport(Sport sport) {
         this.sport = sport;
@@ -152,7 +146,7 @@ public class Epreuve {
 
     @Override
     public String toString() {
-        return "L'epreuve est " + nom + ", categorie " + categorie + ", style " + style + ", sport " + sport
+        return "L'epreuve est " + nom + ", categorie " + categorie + ", sport " + sport
                 + ", participants " + participants;
     }
     
