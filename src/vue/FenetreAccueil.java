@@ -128,12 +128,14 @@ public class FenetreAccueil extends Application {
     public Alert popUpErreurConnexion(){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Erreur de connexion, votre login ou password est invalide", ButtonType.OK);
         alert.setTitle("Attention");
+        alert.setHeaderText("Invalide");
         return alert;
     }
 
     public Alert popUpConnexion(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION,"Vous êtes connecté", ButtonType.OK);
-        alert.setTitle("Connecté");
+        alert.setTitle("Connexion");
+        alert.setHeaderText("Connecté");
         return alert;
     }
 
