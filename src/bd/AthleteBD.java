@@ -63,10 +63,10 @@ public class AthleteBD {
 
 ////////////////////////////////////// JOURNALISTE //////////////////////////////////////
 
-List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLException{
+public List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLException{
 	PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E from ATHLETE natural join PARTICIPER natural join EPREUVE where id_Ep =" + e.getNum());
 	ResultSet rs = ps.executeQuery();
-	Epreuve ep = new Epreuve(e.getNom(), e.getCategorie(), e.getStyle(), e.getSport(), e.getNum());
+	Epreuve ep = new Epreuve(e.getNom(), e.getCategorie(), e.getSport(), e.getNum());
 		while (rs.next()){
 			PreparedStatement psP = this.laConnexion.prepareStatement("SELECT nom_P from PAYS where id_P = " + rs.getInt("id_P"));
 			ResultSet rsP = psP.executeQuery();
@@ -105,7 +105,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 	
 	
 
-	int maxNumPays() throws SQLException{
+	public int maxNumPays() throws SQLException{
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("select max(id_P) from PAYS");
 		if (rs.next()){
@@ -116,7 +116,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		return -1;
 	}
 
-	List<Pays> classement() throws SQLException{
+	public List<Pays> classement() throws SQLException{
 		ArrayList<Pays> listePays = new ArrayList<>();
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Or, nb_Argent , nb_Bronze");
@@ -194,8 +194,20 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		else{
 			ps.setInt(9,j.getEquipe().getNum());
 		}
+		if (this.existeDeja(j)){return 0;}
 		ps.executeUpdate();
 		return nouvNum;
+	}
+	public boolean existeDeja(participant.Athlete j) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		String nom = "'"+j.getNom()+"'";
+		String prenom = "'"+j.getPrenom()+"'";
+		String sexe = "'"+j.getSexe()+"'";
+		ResultSet rs = this.st.executeQuery("select * from ATHLETE where nom_A="+nom+" and prenom_A="+prenom+" and sexe_A="+sexe+ " and force_A="+j.getForce()+" and endurance="+j.getEndurance()+ " and agilite="+j.getAgilite());
+		if (rs.next()){
+			return true;
+		}
+		return false;
 	}
 
 	public void insererParticipation(Athlete a, Epreuve e)throws SQLException{
@@ -246,9 +258,20 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 			return -1;
 	}
 
+	public Athlete getAthlete(int id) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("SELECT nom_A,prenom_A,sexe_A,force_A,endurance,agilite,id_E,nom_P  from ATHLETE natural join PAYS where id_A =" +id);
+		if (rs.next()){
+			return new Athlete(rs.getString("nom_A"), rs.getString("prenom_A"), rs.getString("sexe_A"), rs.getInt("force_A"), rs.getInt("endurance"), rs.getInt("agilite"), new Pays(rs.getString("nom_P")), id);
+		}
+		return null;
+
+
+	}
+
 	
 	public void majAthlete(Athlete a)throws SQLException{
-		PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE ATHLETE SET nom_A = ?,prenom_A = ?, sexe_A=?,id_P=?,force_A=?,endurance=?, agilite = ?, id_E = ? where id_A = ?" );
+		PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE ATHLETE SET nom_A = ?,prenom_A = ?, sexe_A=?,id_P=?,force_A=?,endurance=?, agilite = ?, id_E = ? where nom_A = ? and prenom_A=? and sexe_A=? and id_P=?" );
 		ps.setString(1, a.getNom());
 		ps.setString(2, a.getPrenom());
 		ps.setString(3, a.getSexe());
@@ -256,8 +279,16 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		ps.setInt(5, a.getForce());
 		ps.setInt(6, a.getEndurance());
 		ps.setInt(7, a.getAgilite());
-		ps.setInt(8, a.getEquipe().getNum());
-		ps.setInt(9, a.getNum());
+		if(a.getEquipe() == null){
+			ps.setInt(8, 0);
+		}
+		else{
+			ps.setInt(8,a.getEquipe().getNum());
+		}
+		ps.setString(9, a.getNom());
+		ps.setString(10, a.getPrenom());
+		ps.setString(11, a.getSexe());
+		ps.setInt(12, a.getPays().getNum());
 		ps.executeUpdate();
     	}
 
@@ -282,6 +313,18 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		}
 		return pays;
 	}
+	public int avoirAthleteParNom(String nom, String prenom, String sexe) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		String nombis = "'"+nom+"'";
+		String prenomBis = "'"+prenom+"'";
+		String sexebis = "'"+sexe+"'";
+		ResultSet rs = this.st.executeQuery("select id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E from ATHLETE where nom_A=" + nombis + " and prenom_A =" + prenomBis + "and sexe_A =" + sexebis);
+		int numA = -1;
+		if (rs.next()){
+			numA = rs.getInt("id_A");
+		}
+		return numA;
+	}
 
 	public Equipe avoirEquipeParNom(String nom) throws SQLException{
 		this.st = this.laConnexion.createStatement();
@@ -300,7 +343,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 public void lancerEpreuve(Epreuve e)throws SQLException{
 	PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E from ATHLETE natural join PARTICIPER natural join EPREUVE where id_Ep =" + e.getNum());
 	ResultSet rs = ps.executeQuery();
-	Epreuve ep = new Epreuve(e.getNom(), e.getCategorie(), e.getStyle(), e.getSport(), e.getNum());
+	Epreuve ep = new Epreuve(e.getNom(), e.getCategorie(), e.getSport(), e.getNum());
 		while (rs.next()){
 			PreparedStatement psP = this.laConnexion.prepareStatement("SELECT nom_P from PAYS where id_P = " + rs.getInt("id_P"));
 			ResultSet rsP = psP.executeQuery();
@@ -372,6 +415,25 @@ public void lancerEpreuve(Epreuve e)throws SQLException{
 }
 
 
+public Epreuve avoirEpreuveParNom(String nom, String categorie, Sport sport) throws SQLException{
+	this.st = this.laConnexion.createStatement();
+	String nombis = "'"+nom+"'";
+	String categoriebis = "'"+categorie+"'";
+	ResultSet rs = this.st.executeQuery("select id_Ep,id_S from PAYS where nom_P =" + nombis+" and caegorie =" + categoriebis);
+	Epreuve epreuve = null;
+	if (rs.next()){
+
+		Statement sts = this.laConnexion.createStatement();
+		ResultSet rss = sts.executeQuery("select nom, milieu from SPORT where id_S =" + sport.getNum() );
+		String noms = rss.getString("nom");
+		String milieu = rss.getString("milieu");
+
+
+		Integer num = rs.getInt("id_Ep");
+		epreuve = new Epreuve(nom,categorie,sport,num);
+	}
+	return epreuve;
+}
 
 }
 
