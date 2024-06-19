@@ -11,6 +11,12 @@ public class Utilisateur{
         this.role = "journaliste";
     }
 
+    public Utilisateur(String nom, String mdp, String role) {
+        this.nom = nom;
+        this.mdp = mdp;
+        this.role = role;
+    }
+
     public String getNom() {
         return nom;
     }

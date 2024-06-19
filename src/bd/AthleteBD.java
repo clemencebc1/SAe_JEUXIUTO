@@ -119,7 +119,46 @@ public List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws 
 	public List<Pays> classement() throws SQLException{
 		ArrayList<Pays> listePays = new ArrayList<>();
 		this.st = this.laConnexion.createStatement();
-		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Or, nb_Argent , nb_Bronze");
+		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Or DESC, nb_Argent DESC, nb_Bronze");
+		while (rs.next()){
+			Integer num = maxNumPays()+1;
+			String nom = rs.getString("nom_P");
+			Integer nbArgent = rs.getInt("nb_Argent");
+			Integer nbBronze = rs.getInt("nb_Bronze");
+			Integer nbOr = rs.getInt("nb_Or");
+			Pays pays = new Pays(nom,num);
+			pays.setNbOr(nbOr);
+			pays.setNbArgent(nbArgent);
+			pays.setNbBronze(nbBronze);
+			listePays.add(pays);
+		}
+		rs.close();
+		return listePays;
+	}
+
+	public List<Pays> classementArgent() throws SQLException{
+		ArrayList<Pays> listePays = new ArrayList<>();
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Argent DESC, nb_Or DESC, nb_Bronze");
+		while (rs.next()){
+			Integer num = maxNumPays()+1;
+			String nom = rs.getString("nom_P");
+			Integer nbArgent = rs.getInt("nb_Argent");
+			Integer nbBronze = rs.getInt("nb_Bronze");
+			Integer nbOr = rs.getInt("nb_Or");
+			Pays pays = new Pays(nom,num);
+			pays.setNbOr(nbOr);
+			pays.setNbArgent(nbArgent);
+			pays.setNbBronze(nbBronze);
+			listePays.add(pays);
+		}
+		rs.close();
+		return listePays;
+	}
+	public List<Pays> classementBronze() throws SQLException{
+		ArrayList<Pays> listePays = new ArrayList<>();
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("select nom_P,nb_Or,nb_Argent,nb_Bronze from PAYS order by nb_Bronze DESC, nb_Or DESC ,nb_Argent ");
 		while (rs.next()){
 			Integer num = maxNumPays()+1;
 			String nom = rs.getString("nom_P");
@@ -336,6 +375,17 @@ public List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws 
 			equipe = new Equipe(nom,num);
 		}
 		return equipe;
+	}
+
+	public List<Utilisateur> user() throws SQLException{
+		List<Utilisateur> listeUser = new ArrayList<>();
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("select nom_U, mdp_U, role_U from USER");
+		while (rs.next()){
+			Utilisateur user = new Utilisateur(rs.getString("nom_U"), rs.getString("mdp_U"), rs.getString("role_U"));
+			listeUser.add(user);
+		}
+		return listeUser;
 	}
 
 ////////////////////////////////////// ORGANISATEUR //////////////////////////////////////
