@@ -273,7 +273,8 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 
 	public Pays avoirPaysParNom(String nom) throws SQLException{
 		this.st = this.laConnexion.createStatement();
-		ResultSet rs = this.st.executeQuery("select id_P from PAYS where nom_P =" + nom);
+		String nombis = "'"+nom+"'";
+		ResultSet rs = this.st.executeQuery("select id_P from PAYS where nom_P =" + nombis);
 		Pays pays = null;
 		if (rs.next()){
 			Integer num = rs.getInt("id_P");
@@ -284,10 +285,11 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 
 	public Equipe avoirEquipeParNom(String nom) throws SQLException{
 		this.st = this.laConnexion.createStatement();
-		ResultSet rs = this.st.executeQuery("select id_E from EQUIPE where nom_P =" + nom);
+		String nombis = "'"+nom+"'";
+		ResultSet rs = this.st.executeQuery("select id_E from EQUIPE where nom_E =" + nombis);
 		Equipe equipe = null;
 		if (rs.next()){
-			Integer num = rs.getInt("ie_E");
+			Integer num = rs.getInt("id_E");
 			equipe = new Equipe(nom,num);
 		}
 		return equipe;
