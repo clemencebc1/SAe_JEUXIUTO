@@ -56,6 +56,7 @@ public class FenetreAccueil extends Application {
     private FenetreConnexion fenetreCo;
     private FenetreJournaliste fenetreJourna;
     private FenetreInscription fenetreInscription;
+    private FenetreOrganisateur fenetreorga;
 
     private ConnexionMySQL connexionMySQL;
     private AthleteBD bd;
@@ -63,7 +64,6 @@ public class FenetreAccueil extends Application {
 
     @Override
     public void init(){
-
         this.boutonConnexion = new Button("Connexion");
         this.inscri = new Button("S'inscrire");
         this.boutonConnexion.setStyle("-fx-text-fill: #000000;"+"-fx-background-radius: 1em;");
@@ -108,6 +108,13 @@ public class FenetreAccueil extends Application {
        this.boutonConnexion.setText("Connexion");
 
        this.scene.setRoot(root);
+    }
+    public void afficheFenetreOrga(){
+        this.fenetreorga = new FenetreOrganisateur(boutonConnexion, this);
+        this.root= this.fenetreorga;
+        this.boutonConnexion.setText("Déconnexion");
+
+        this.scene.setRoot(root);
     }
 // modification du root pour afficher la fenetre d'inscription
     public void inscrire(){
@@ -169,6 +176,9 @@ public class FenetreAccueil extends Application {
     }
     public Button getButtonInscri(){
         return this.inscri;
+    }
+    public FenetreOrganisateur getFenetreOrganisateur(){
+        return this.fenetreorga;
     }
     
 }

@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import javax.swing.text.LabelView;
+import java.util.List;
+import bd.Utilisateur;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -60,11 +62,14 @@ public class FenetreAdmin extends BorderPane{
     private Button saisir;
     private Button supprimer;
     private Button modifier;
+    private TextField userRole;
+    private TableView<Utilisateur> tableviewUser;
 
     public FenetreAdmin(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
         this.appli = appli;
+        this.userRole = new TextField(); // initialise tableau
         this.saisir = new Button("Saisir données");
         this.supprimer= new Button("Supprimer des données");
         this.modifier = new Button("Modifier des données");
@@ -90,6 +95,16 @@ public class FenetreAdmin extends BorderPane{
             tableview.getColumns().add(force);
             tableview.getColumns().add(endurance);
             tableview.getColumns().add(agilite);
+        
+        this.tableviewUser = new TableView<>();
+        TableColumn<Utilisateur, String> nomU = new TableColumn<>("Identifiant");
+        TableColumn<Utilisateur, String> role = new TableColumn<>("Role");
+        nomU.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        role.setCellValueFactory(new PropertyValueFactory<>("role"));
+        tableviewUser.getColumns().add(nomU);
+        tableviewUser.getColumns().add(role);
+
+
     
 
         this.ajouteTop();
@@ -100,7 +115,7 @@ public class FenetreAdmin extends BorderPane{
 
     // ajoute les images
     public void ajouteImage(){
-        ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg"));
+        ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg",175,125,false,false));
         this.setRight(imageJO);
     }
 
@@ -116,6 +131,7 @@ public class FenetreAdmin extends BorderPane{
         this.etatInitialBoutonSupp();
         
         HTop.getChildren().addAll(saisir,supprimer,modifier);
+        HTop.setAlignment(Pos.CENTER);
 
         HBox.setMargin(saisir, new Insets(10)); 
         HBox.setMargin(supprimer, new Insets(10));
@@ -127,6 +143,7 @@ public class FenetreAdmin extends BorderPane{
         this.setTop(HTop);
     
     }
+    // remet à l'état initial les boutons (style)
     public void etatInitialBoutonSaisir(){
         this.saisir.setStyle("-fx-background-radius: 1em;");
     }
@@ -136,7 +153,8 @@ public class FenetreAdmin extends BorderPane{
     public void etatInitialBoutonModifier(){
         this.modifier.setStyle("-fx-background-radius: 1em;");
     }
-    // choix de saisie des données
+
+    // choix de saisie des données, ajoute des ahtletes ou epreuve
     public void saisirDonnees(){
         HBox hbSaisirDonnees = new HBox();
         Button athlete = new Button("Ajouter un athlète");
@@ -148,8 +166,9 @@ public class FenetreAdmin extends BorderPane{
         hbSaisirDonnees.setAlignment(Pos.CENTER);
         this.setCenter(hbSaisirDonnees);
 
-
     }
+
+    // choix modification des donnees
     public void modifierDonnees(){
         HBox hbModifDonnees = new HBox();
         Button athlete = new Button("Modifier un athlète");
@@ -157,6 +176,7 @@ public class FenetreAdmin extends BorderPane{
 
         Button user = new Button("Modifier un utilisateur");
         hbModifDonnees.getChildren().addAll(athlete, user);
+        user.setOnAction(new ControleurModifierDonneesUser(appli));
 
         HBox.setMargin(athlete, new Insets(10)); 
         HBox.setMargin(user, new Insets(10));
@@ -166,77 +186,85 @@ public class FenetreAdmin extends BorderPane{
 
 
     }
+    // affiche le tableau et les textfield des user
+    public void modifDonneesUser(){
+        VBox vbUser = new VBox();
+        Button modifier = new Button("Modifier");
+        modifier.setOnAction(new ControleurModifTableBoutonUser(this.appli));
+        try {
+            List<Utilisateur> liste = this.appli.getBD().user(); // on recupere dans la base de donnees les infos
+            for (Utilisateur u : liste){ // on fait  le tableau
+                this.tableviewUser.getItems().add(u);
+            }
 
+    }
+        catch (SQLException e){
+            this.popUpBaseDeDonnees().showAndWait(); // on affiche un message d'erreur
+            System.err.println(e.getMessage());
+
+            }
+            vbUser.getChildren().addAll(tableviewUser, this.userRole,modifier);
+            this.userRole.setPromptText("Role utilisateur"); // on ajoute le style
+            VBox.setMargin(tableviewUser, new Insets(15));
+            VBox.setMargin(modifier, new Insets(15));
+            this.setCenter(vbUser);
+            this.tableviewUser.setOnMouseClicked(new ControleurModifTableUser(appli));
+        
+    }
+
+    //  affichage des textfield et tableau
     public void modifDonneesAthlete(){
         BorderPane bpSaisieAthlete = new BorderPane(); 
         VBox vbSaisirDonnees = new VBox();
 
-        HBox hnom = new HBox();
         this.tnom = new TextField();
         this.tnom.setPromptText("Nom athlete");
-        hnom.getChildren().addAll(tnom);
         HBox.setMargin(tnom, new Insets(10));
 
-        HBox hprenom = new HBox();
         this.tprenom = new TextField();
         this.tprenom.setPromptText("Prenom athlete");
-        hprenom.getChildren().addAll(tprenom);
         HBox.setMargin(tprenom, new Insets(10));
 
-        HBox hsexe = new HBox();
         this.tsexe = new TextField();
         this.tsexe.setPromptText("Sexe athlete");
-        hsexe.getChildren().addAll(tsexe);
         HBox.setMargin(tsexe, new Insets(10));
 
-
-        HBox hpays = new HBox();
         this.tpays = new TextField();
-        this.tpays.setPromptText("Pays athlete");
-        hpays.getChildren().addAll(tpays); 
+        this.tpays.setPromptText("Pays athlete"); 
         HBox.setMargin(tpays, new Insets(10));
 
 
-        HBox hforce = new HBox();
         this.tforce = new TextField();
         this.tforce.setPromptText("Force athlete");
-        hforce.getChildren().addAll(tforce);
         tforce.focusedProperty().addListener(new ControleurFieldNB(tforce));
         HBox.setMargin(tforce, new Insets(10));
 
 
-        HBox hendurance = new HBox();
         this.tendurance = new TextField();
         this.tendurance.setPromptText("Endurance athlete");
         tendurance.focusedProperty().addListener(new ControleurFieldNB(tendurance));
-        hendurance.getChildren().addAll(tendurance);
         HBox.setMargin(tendurance, new Insets(10));
 
-
-        HBox hagilite = new HBox();
         this.tagilite = new TextField();
         this.tagilite.setPromptText("Agilite athlete");
         tagilite.focusedProperty().addListener(new ControleurFieldNB(tagilite));
-        hagilite.getChildren().addAll(tagilite);
         HBox.setMargin(tagilite, new Insets(10));
 
-
-        HBox hequipe = new HBox();
         this.tequipe = new TextField();
         this.tequipe.setPromptText("Equipe athlete");
-        hequipe.getChildren().addAll(tequipe);
         HBox.setMargin(tequipe, new Insets(10));
 
         Button modifier = new Button("Modifier");
         modifier.setOnAction(new ControleurModifTableBouton(this.appli));
+        HBox hbtf = new HBox(tnom, tprenom, tsexe, tpays,tforce,tendurance,tagilite,tequipe);
 
-        vbSaisirDonnees.getChildren().addAll(hnom,hprenom,hsexe,hpays,hforce,hendurance,hagilite,hequipe,modifier);
+        vbSaisirDonnees.getChildren().addAll(hbtf,modifier);
         vbSaisirDonnees.setAlignment(Pos.CENTER);
         
         bpSaisieAthlete.setBottom(vbSaisirDonnees);
         bpSaisieAthlete.setCenter(tableview);
         try {
-            if (!(this.appli.getBD().maxNumAthlete()==-1)){
+            if (!(this.appli.getBD().maxNumAthlete()==-1)){ // tant qu'il y a des athletes dans la BD, on ajoute au tableau
                 int indice = 1;
                 while (!(indice ==this.appli.getBD().maxNumAthlete())){
                     Athlete a = this.appli.getBD().getAthlete(indice);
@@ -249,9 +277,9 @@ public class FenetreAdmin extends BorderPane{
         this.tableview.setEditable(true);
         BorderPane.setMargin(tableview, new Insets(15));
     }
-    catch (SQLException e){
-        this.popUpBaseDeDonnees().showAndWait();
-        System.err.println(e.getMessage());
+        catch (SQLException e){
+            this.popUpBaseDeDonnees().showAndWait();
+            System.err.println(e.getMessage());
 
     }
         bpSaisieAthlete.setCenter(tableview);
@@ -265,66 +293,52 @@ public class FenetreAdmin extends BorderPane{
         BorderPane bpSaisieAthlete = new BorderPane(); 
         VBox vbSaisirDonnees = new VBox();
 
-        HBox hnom = new HBox();
+        HBox hbTf = new HBox();
         this.tnom = new TextField();
         this.tnom.setPromptText("Nom athlete");
-        hnom.getChildren().addAll(tnom);
         HBox.setMargin(tnom, new Insets(10));
 
-        HBox hprenom = new HBox();
         this.tprenom = new TextField();
         this.tprenom.setPromptText("Prenom athlete");
-        hprenom.getChildren().addAll(tprenom);
         HBox.setMargin(tprenom, new Insets(10));
 
-        HBox hsexe = new HBox();
         this.tsexe = new TextField();
         this.tsexe.setPromptText("Sexe athlete");
-        hsexe.getChildren().addAll(tsexe);
         HBox.setMargin(tsexe, new Insets(10));
 
 
-        HBox hpays = new HBox();
         this.tpays = new TextField();
         this.tpays.setPromptText("Pays athlete");
-        hpays.getChildren().addAll(tpays); 
         HBox.setMargin(tpays, new Insets(10));
 
-
-        HBox hforce = new HBox();
         this.tforce = new TextField();
         this.tforce.setPromptText("Force athlete");
-        hforce.getChildren().addAll(tforce);
         tforce.focusedProperty().addListener(new ControleurFieldNB(tforce));
         HBox.setMargin(tforce, new Insets(10));
 
 
-        HBox hendurance = new HBox();
         this.tendurance = new TextField();
         this.tendurance.setPromptText("Endurance athlete");
         tendurance.focusedProperty().addListener(new ControleurFieldNB(tendurance));
-        hendurance.getChildren().addAll(tendurance);
         HBox.setMargin(tendurance, new Insets(10));
 
-
-        HBox hagilite = new HBox();
         this.tagilite = new TextField();
         this.tagilite.setPromptText("Agilite athlete");
         tagilite.focusedProperty().addListener(new ControleurFieldNB(tagilite));
-        hagilite.getChildren().addAll(tagilite);
         HBox.setMargin(tagilite, new Insets(10));
 
 
-        HBox hequipe = new HBox();
         this.tequipe = new TextField();
         this.tequipe.setPromptText("Equipe athlete");
-        hequipe.getChildren().addAll(tequipe);
         HBox.setMargin(tequipe, new Insets(10));
+        hbTf.getChildren().addAll(tnom, tprenom,tsexe,tpays,tforce,tendurance,tagilite);
+        
 
+        // apres avoir creer les textfield on cree le tableau
         Button creer = new Button("Créer");
         creer.setOnAction(new ControleurCreerAthlete(this.appli));
 
-        vbSaisirDonnees.getChildren().addAll(hnom,hprenom,hsexe,hpays,hforce,hendurance,hagilite,hequipe,creer);
+        vbSaisirDonnees.getChildren().addAll(hbTf,creer);
         vbSaisirDonnees.setAlignment(Pos.CENTER);
         
         bpSaisieAthlete.setBottom(vbSaisirDonnees);
@@ -343,14 +357,14 @@ public class FenetreAdmin extends BorderPane{
         this.tableview.setEditable(true);
         BorderPane.setMargin(tableview, new Insets(15));
     }
-    catch (SQLException e){
+    catch (SQLException e){ // si erreur connexion avec base de données
         this.popUpBaseDeDonnees().showAndWait();
         System.err.println(e.getMessage());
 
     }
-        bpSaisieAthlete.setCenter(tableview);
+        bpSaisieAthlete.setCenter(tableview); 
         this.setCenter(bpSaisieAthlete);
-
+        this.tableview.setOnMouseClicked(null); // on s'assure qu'il n'y a pas de controleur actif (supprimer donnees)
     }
 
     public void supprimerDonnees(){
@@ -376,6 +390,8 @@ public class FenetreAdmin extends BorderPane{
     this.setCenter(tableview);
 
     }
+
+    // ensembles des popUP
     public Alert popUpModifier(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Voulez-vous modifier l'ahtlète ?", ButtonType.YES, ButtonType.NO);
         alert.setTitle("Attention");
@@ -422,14 +438,14 @@ public class FenetreAdmin extends BorderPane{
         alert.setHeaderText("Non prise en compte");
         return alert;
     }
-    /*
-    public TableView<Athlete> getTableView(){
-        return this.tableview;
-    }*/
+
+
 
     public void ajouteBottom(){
         this.setBottom(this.connexion);
-        BorderPane.setAlignment(connexion, Pos.CENTER);
+        BorderPane.setAlignment(connexion, Pos.BOTTOM_RIGHT);
+        BorderPane.setMargin(connexion, new Insets(20));
+
     }
 
 // getters et setters
@@ -439,6 +455,13 @@ public class FenetreAdmin extends BorderPane{
     public TableView<Athlete> getTableView(){
         return this.tableview;
     }
+    public TextField getUserRole(){
+        return this.userRole;
+    }
+    public TableView<Utilisateur> gTableViewUSer(){
+        return this.tableviewUser;
+    }
+
 
 
     public void setConnexion(Button connexion) {

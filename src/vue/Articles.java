@@ -75,6 +75,7 @@ public class Articles extends ArrayList<BorderPane>{
         vbNatation2.getChildren().addAll(titreNatation2,contenu1);
         bpNatation2.setCenter(vbNatation2);
         this.add(bpNatation2);
+        
 
         vbNatation2.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null,null)));
 

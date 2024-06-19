@@ -19,6 +19,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -50,8 +51,9 @@ import javafx.scene.control.TableColumn;
 public class FenetreJournaliste extends BorderPane{
     private Button connexion;
     private FenetreAccueil appli;
-
+    private ComboBox<String> comboboxClassement;
     private Articles articles;
+    private TableView<Pays> tableview;
 
     
 
@@ -59,7 +61,21 @@ public class FenetreJournaliste extends BorderPane{
         super();
         this.connexion = btn;
         this.appli = appli;
-
+        this.comboboxClassement = new ComboBox<>();
+        this.tableview = new TableView<>();
+        TableColumn<Pays, String> pays = new TableColumn<>("Pays"); // initialise le tableau
+            TableColumn<Pays, String> medailleOr = new TableColumn<>("Medaille Or");
+            TableColumn<Pays, String> medailleArgent = new TableColumn<>("Medaille Argent");
+            TableColumn<Pays, String> medailleBronze = new TableColumn<>("Medaille Bronze");
+            pays.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            medailleOr.setCellValueFactory(new PropertyValueFactory<>("nbOr"));
+            medailleArgent.setCellValueFactory(new PropertyValueFactory<>("nbArgent"));
+            medailleBronze.setCellValueFactory(new PropertyValueFactory<>("nbBronze"));
+            tableview.getColumns().add(pays);
+            tableview.getColumns().add(medailleOr);
+            tableview.getColumns().add(medailleArgent);
+            tableview.getColumns().add(medailleBronze);
+            
         this.articles = new Articles(appli);
         this.articles.creeArticleSport();
 
@@ -73,6 +89,7 @@ public class FenetreJournaliste extends BorderPane{
     public void ajouteImage(){
         ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg",150,100,false,false));
         this.setRight(imageJO);
+
     }
 
 /*ajoute les choix de pages*/
@@ -121,25 +138,21 @@ public class FenetreJournaliste extends BorderPane{
     }
     /*creer un tableau avec le classement*/
     public void classement(){
+        this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
+        VBox vbClassement = new VBox();
+        this.comboboxClassement.setOnAction(new ControleurChoixClassement(appli));;
+        comboboxClassement.getSelectionModel().selectFirst();
+
         try { List<Pays> listeClassement = this.appli.getBD().classement();
-            TableView<Pays> tableview = new TableView<>();
-            TableColumn<Pays, String> pays = new TableColumn<>("Pays");
-            TableColumn<Pays, String> medailleOr = new TableColumn<>("Medaille Or");
-            TableColumn<Pays, String> medailleArgent = new TableColumn<>("Medaille Argent");
-            TableColumn<Pays, String> medailleBronze = new TableColumn<>("Medaille Bronze");
-            pays.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            medailleOr.setCellValueFactory(new PropertyValueFactory<>("nbOr"));
-            medailleArgent.setCellValueFactory(new PropertyValueFactory<>("nbArgent"));
-            medailleBronze.setCellValueFactory(new PropertyValueFactory<>("nbBronze"));
-            tableview.getColumns().add(pays);
-            tableview.getColumns().add(medailleOr);
-            tableview.getColumns().add(medailleArgent);
-            tableview.getColumns().add(medailleBronze);
-            
             for (Pays p : listeClassement){
                 tableview.getItems().add(p);
             }
-            this.setCenter(tableview);
+
+            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.setAlignment(Pos.CENTER);
+            VBox.setMargin(tableview, new Insets(10));
+            VBox.setMargin(comboboxClassement, new Insets(10));
+            this.setCenter(vbClassement);
         }
         catch (SQLException e){
             this.popUpErreurClassement(e).showAndWait();
@@ -147,6 +160,51 @@ public class FenetreJournaliste extends BorderPane{
         }
 
     }
+
+    // arrange le tableau selon medaille argent
+    public void trieMedailleArgent(){
+        VBox vbClassement = new VBox();
+        this.tableview.getItems().clear();
+        try {
+            List<Pays> listeClassement = this.appli.getBD().classementArgent();
+            for (Pays p : listeClassement){
+                tableview.getItems().add(p);
+            }
+            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.setAlignment(Pos.CENTER);
+            VBox.setMargin(tableview, new Insets(10));
+            VBox.setMargin(comboboxClassement, new Insets(10));
+            this.setCenter(vbClassement);
+
+        }
+        catch (SQLException e){
+            this.popUpErreurClassement(e).showAndWait();
+        }
+
+    }
+    // arrange tableau selon medaille bronze
+    public void trieMedailleBronze(){
+        VBox vbClassement = new VBox();
+        this.tableview.getItems().clear();
+        try {
+            List<Pays> listeClassement = this.appli.getBD().classementBronze();
+            for (Pays p : listeClassement){
+                tableview.getItems().add(p);
+            }
+            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.setAlignment(Pos.CENTER);
+            VBox.setMargin(tableview, new Insets(10));
+            VBox.setMargin(comboboxClassement, new Insets(10));
+            this.setCenter(vbClassement);
+
+        }
+        catch (SQLException e){
+            this.popUpErreurClassement(e).showAndWait();
+        }
+
+    }
+
+
     /*ajout d'articles en lien avec les actualites JO*/
     public void ajoutArticles(){
         VBox vb = new VBox();

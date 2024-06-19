@@ -67,7 +67,6 @@ public class FenetreInscription extends BorderPane{
         Label labelInscri = new Label("Nouveau ?");
 
         vbCentre.getChildren().addAll(labelId,this.tfId,labelPasswd,this.pwd,this.inscription);
-
         this.setCenter(vbCentre);
         vbCentre.setAlignment(Pos.CENTER);
         VBox.setMargin(labelInscri, new Insets(15));
@@ -80,29 +79,26 @@ public class FenetreInscription extends BorderPane{
         this.pwd.setPromptText("Votre mot de passe");
         this.tfId.focusedProperty().addListener(new ControleurId(this.tfId));
         vbCentre.setStyle("-fx-background-radius: 1em; -fx-background-color: whitesmoke");
-
     
         
     }
 
     public void ajouteTop(){
         Button buttonRetour = new Button("Retour");
-
         BorderPane.setMargin(buttonRetour, new Insets(15));
         this.setTop(buttonRetour);
         buttonRetour.setStyle("-fx-background-radius: 1em;");
-
         buttonRetour.setOnAction(new ControleBoutonRetour(fenetreAccueil));
     }
 
     public void modifieBorderPane(){
         this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null,null)));
 
-
     }
     public Alert popUpIdPresent(){
         Alert alert = new Alert(Alert.AlertType.ERROR,"L'identifiant existe déjà", ButtonType.OK);
         alert.setTitle("Attention");
+        alert.setHeaderText("Existe déjà");
         return alert;
     }
 

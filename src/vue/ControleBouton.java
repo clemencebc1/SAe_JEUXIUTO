@@ -18,12 +18,12 @@ public class ControleBouton implements EventHandler<ActionEvent>{
     
     @Override
     public void handle(ActionEvent event) {
-        Button button = (Button) (event.getSource());
+        Button button = (Button) (event.getSource()); // on recupere le bouton et on regarde son contenu
         if (button.getText().contains("Connexion")){
             String id = this.appli.getFenetreCo().getTfId().getText();
             String pwd = this.appli.getFenetreCo().getPwd().getText();
             try {
-                if (this.appli.getConnexionMySQL().isConnecte(id, pwd)){
+                if (this.appli.getConnexionMySQL().isConnecte(id, pwd)){ // si la connexion est passée, choix des pages
                 
                     this.appli.getBD().Athlete(this.appli.getConnexionMySQL());
                     if (this.appli.getBD().estAdmin(id, pwd)){
@@ -37,6 +37,8 @@ public class ControleBouton implements EventHandler<ActionEvent>{
                         this.appli.popUpConnexion().showAndWait();
                     }
                     else if (this.appli.getBD().estOrga(id, pwd)){
+                        
+                        this.appli.afficheFenetreOrga();
                         this.appli.popUpConnexion().showAndWait();
 
                     }
