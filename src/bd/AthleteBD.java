@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
 
+
 // javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls -d bin/ src/bd/*.java src/participant/*.java src/sport/*.java src/autre/*.java src/comparateur/*.java
 
 public class AthleteBD {
@@ -125,7 +126,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 			Integer nbArgent = rs.getInt("nb_Argent");
 			Integer nbBronze = rs.getInt("nb_Bronze");
 			Integer nbOr = rs.getInt("nb_Or");
-			Pays pays = new Pays( nom,num);
+			Pays pays = new Pays(nom,num);
 			pays.setNbOr(nbOr);
 			pays.setNbArgent(nbArgent);
 			pays.setNbBronze(nbBronze);
@@ -136,24 +137,24 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 	}
 ////////////////////////////////////// ADMIN //////////////////////////////////////
 
-	void effacerAthlete(int num) throws SQLException {
+	public void effacerAthlete(int num) throws SQLException {
 		Statement st = this.laConnexion.createStatement();
 		st.executeUpdate("delete from ATHLETE where id_A = " + num);
 		st.executeUpdate("delete from PARTICIPER where id_A = " + num);
 	}
-	void effacerEpreuve(int num) throws SQLException {
+	public void effacerEpreuve(int num) throws SQLException {
 		Statement st = this.laConnexion.createStatement();
 		st.executeUpdate("delete from EPREUVE where id_Ep = " + num);
 		st.executeUpdate("delete from PARTICIPER where id_Ep = " + num);
 	}
 
-	void effacerUser(String nom,String mdp) throws SQLException {
+	public void effacerUser(String nom,String mdp) throws SQLException {
 		Statement st = this.laConnexion.createStatement();
 		st.executeUpdate("delete from USER where nom_U = " + nom + "and mdp_U = " + mdp );
 		
 	}
 
-	int maxNumAthlete() throws SQLException{
+	public int maxNumAthlete() throws SQLException{
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("select max(id_A) from ATHLETE");
 		if (rs.next()){
@@ -164,7 +165,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		return -1;
 	}
 
-	int maxNumEpreuve() throws SQLException{
+	public int maxNumEpreuve() throws SQLException{
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("select max(id_Ep) from EPREUVE");
 		if (rs.next()){
@@ -176,7 +177,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 	}
 
 	
-	int insererAthlete( participant.Athlete j) throws  SQLException{
+	public int insererAthlete( participant.Athlete j) throws  SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into ATHLETE(id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E) values (?,?,?,?,?,?,?,?,?)");
 		int nouvNum = maxNumAthlete()+1;
 		ps.setInt(1, nouvNum);
@@ -187,7 +188,12 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		ps.setInt(6, j.getForce());
 		ps.setInt(7, j.getEndurance());
 		ps.setInt(8, j.getAgilite());
-		ps.setInt(9, j.getEquipe().getNum());
+		if(j.getEquipe() == null){
+			ps.setInt(9, 0);
+		}
+		else{
+			ps.setInt(9,j.getEquipe().getNum());
+		}
 		ps.executeUpdate();
 		return nouvNum;
 	}
@@ -208,7 +214,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 
 	}
 
-	void insererEpreuve(Epreuve e)throws SQLException{
+	public void insererEpreuve(Epreuve e)throws SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("insert into EPREUVE(id_EP,nom,categorie,id_S) values (?,?,?,?)");
 		Integer num = maxNumEpreuve() +1;
 		ps.setInt(1, num);
@@ -217,7 +223,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		ps.setInt(4, e.getSport().getNum());
 	}
 
-	int getNumAthlete(Athlete a) throws SQLException{
+	public int getNumAthlete(Athlete a) throws SQLException{
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("SELECT id_A FROM ATHLETE WHERE nom_A = "+ a.getNom() +"AND prenom_A = "+ a.getPrenom()+"AND sexe_A =" + a.getSexe());
 			if (rs.next()){
@@ -228,7 +234,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 			return -1;
 	}
 
-	int getNumEpreuve(Epreuve e)throws SQLException{
+	public int getNumEpreuve(Epreuve e)throws SQLException{
 
 		PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_Ep FROM EPREUVE WHERE nom = "+  e.getNom()+"AND categorie = "+ e.getCategorie()+ "AND id_S = " + e.getSport());
 		ResultSet rs = ps.executeQuery();
@@ -241,7 +247,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 	}
 
 	
-	void majAthlete(Athlete a)throws SQLException{
+	public void majAthlete(Athlete a)throws SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE ATHLETE SET nom_A = ?,prenom_A = ?, sexe_A=?,id_P=?,force_A=?,endurance=?, agilite = ?, id_E = ? where id_A = ?" );
 		ps.setString(1, a.getNom());
 		ps.setString(2, a.getPrenom());
@@ -257,7 +263,7 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 
 	
 
-	void majUser(Utilisateur user)throws SQLException{
+	public void majUser(Utilisateur user)throws SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE USER SET role_u = ? where nom_U = ? and mdp_U = ?" );
 		ps.setString(1, user.getRole());
 		ps.setString(2, user.getNom());
@@ -265,12 +271,31 @@ List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws SQLExce
 		ps.executeUpdate();
     	}
 
-	
-	
+	public Pays avoirPaysParNom(String nom) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("select id_P from PAYS where nom_P =" + nom);
+		Pays pays = null;
+		if (rs.next()){
+			Integer num = rs.getInt("id_P");
+			pays = new Pays( nom,num);
+		}
+		return pays;
+	}
+
+	public Equipe avoirEquipeParNom(String nom) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("select id_E from EQUIPE where nom_P =" + nom);
+		Equipe equipe = null;
+		if (rs.next()){
+			Integer num = rs.getInt("ie_E");
+			equipe = new Equipe(nom,num);
+		}
+		return equipe;
+	}
 
 ////////////////////////////////////// ORGANISATEUR //////////////////////////////////////
 
-void lancerEpreuve(Epreuve e)throws SQLException{
+public void lancerEpreuve(Epreuve e)throws SQLException{
 	PreparedStatement ps = this.laConnexion.prepareStatement("SELECT id_A,nom_A,prenom_A,sexe_A,id_P,force_A,endurance,agilite,id_E from ATHLETE natural join PARTICIPER natural join EPREUVE where id_Ep =" + e.getNum());
 	ResultSet rs = ps.executeQuery();
 	Epreuve ep = new Epreuve(e.getNom(), e.getCategorie(), e.getStyle(), e.getSport(), e.getNum());
