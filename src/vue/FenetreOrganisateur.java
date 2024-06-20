@@ -60,7 +60,7 @@ public class FenetreOrganisateur extends BorderPane {
 
     public FenetreOrganisateur(Button btn, FenetreAccueil appli) {
         super();
-        this.lancerE = new Button(" Lancer l'épreuve");
+        this.lancerE = new Button("C'est parti !");
         this.deco =btn;
         this.appli = appli;
         this.group = new ToggleGroup();
@@ -95,22 +95,27 @@ public class FenetreOrganisateur extends BorderPane {
         RadioButton button1 = new RadioButton();
         button1.setToggleGroup(group);
         button1.setUserData("Natation");
+        button1.setText("Natation");
         button1.setSelected(true);
 
         RadioButton button2 = new RadioButton();
         button2.setToggleGroup(group);
+        button2.setText("Athlétisme");
         button2.setUserData("Athlétisme");
 
         RadioButton button3 = new RadioButton();
         button3.setToggleGroup(group);
+        button3.setText("Escrime");
         button3.setUserData("Escrime");
 
         RadioButton button4 = new RadioButton();
         button4.setToggleGroup(group);
+        button4.setText("Handball");
         button4.setUserData("Handball");
 
         RadioButton button5 = new RadioButton();
         button5.setToggleGroup(group);
+        button5.setText("Volleyball");
         button5.setUserData("Volleyball");
 
         VBox vbCentre = new VBox();
@@ -124,30 +129,29 @@ public class FenetreOrganisateur extends BorderPane {
         this.setCenter(vbCentre);
 
         cmbNatation = new ComboBox<>();
-        cmbNatation.getItems().addAll("Natation 100 brasse H", "Natation 100 brasse F","Natation relais libre F","Natation relais libre H");
+        cmbNatation.getItems().addAll("Natation 100 brasse M", "Natation 100 brasse F","Natation relais libre F","Natation relais libre M");
         cmbNatation.setValue("Catégorie");
-        cmbNatation.setPrefWidth(200);
+        cmbNatation.setPrefWidth(150);
 
         cmbAthletisme = new ComboBox<>();
-        cmbAthletisme.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m H","Athlétisme 4x100m relais F","Athlétisme 4x100m relais H");
+        cmbAthletisme.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
         cmbAthletisme.setValue("Catégorie");
-        cmbAthletisme.setPrefWidth(200);
         
         cmbEscrime = new ComboBox<>();
-        cmbEscrime.getItems().addAll("Escrime fleuret F", "Escrime fleuret H","Escrime épée M" , "Escrime épée F");
+        cmbEscrime.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
         cmbEscrime.setValue("Catégorie");
-        cmbEscrime.setPrefWidth(200);
+        cmbEscrime.setPrefWidth(150);
 
         cmbHandball = new ComboBox<>();
         cmbHandball.getItems().addAll("Handball F", "Handball M");
         cmbHandball.setValue("Catégorie");
-        cmbHandball.setPrefWidth(200);
+        cmbHandball.setPrefWidth(150);
 
 
         cmbVolleyball = new ComboBox<>();
-        cmbVolleyball.getItems().addAll("Volley-ball F", "Volley-ball H");
+        cmbVolleyball.getItems().addAll("Volley-ball F", "Volley-ball M");
         cmbVolleyball.setValue("Catégorie");
-        cmbVolleyball.setPrefWidth(200);
+        cmbVolleyball.setPrefWidth(150);
 
         GridPane grid = new GridPane();
         this.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
@@ -175,10 +179,22 @@ public class FenetreOrganisateur extends BorderPane {
         grid.add(cmbEscrime, 2, 2);
         grid.add(cmbHandball, 2, 3);
         grid.add(cmbVolleyball, 2, 4);
-        this.lancerE.setOnAction(new ControleurRadioButtonOrga(appli));
+        this.lancerE.setOnAction(new ControleurLancer(appli));
+    }
+    public Alert popUpBaseDeDonnees(){
+        Alert alert = new Alert(Alert.AlertType.ERROR,"Une erreur avec la base de données est survenue", ButtonType.OK);
+        alert.setTitle("Attention");
+        alert.setHeaderText("Erreur affichage tableau");
+        return alert;
 
     }
+    public Alert popUpPasDeParticipant(){
+        Alert alert = new Alert(Alert.AlertType.WARNING,"Il n'y a pas de participants à cette épreuve", ButtonType.OK);
+        alert.setTitle("Attention");
+        alert.setHeaderText("Pas de participants");
+        return alert;
 
+    }
 
     public Alert popUpEpreuveLancee(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION,"L'epreuve a été lancé et enregistré", ButtonType.OK);
@@ -193,32 +209,49 @@ public class FenetreOrganisateur extends BorderPane {
     }
 
         //getters
-    
     public ToggleGroup getGroup(){
         return this.group;
     }
 
-    public ComboBox<String> getCmbNatation(){
-        return this.cmbNatation;
+
+    public FenetreAccueil getAppli() {
+        return appli;
     }
 
-    public ComboBox<String> getCmbAthletisme(){
-        return this.cmbAthletisme;
+
+
+    public ComboBox<String> getCmbNatation() {
+        return cmbNatation;
     }
 
-    public ComboBox<String> getCmbEscrime(){
-        return this.cmbEscrime;
+    public ComboBox<String> getCmbAthletisme() {
+        return cmbAthletisme;
     }
 
-    public ComboBox<String> getCmbHandball(){
-        return this.cmbHandball;
+    public ComboBox<String> getCmbEscrime() {
+        return cmbEscrime;
     }
 
-    public ComboBox<String> getCmbVolleyball(){
-        return this.cmbVolleyball;
+    public ComboBox<String> getCmbHandball() {
+        return cmbHandball;
     }
-    public RadioButton getSelectedToggle() {
-        return (RadioButton) group.getSelectedToggle();
+
+    public ComboBox<String> getCmbVolleyball() {
+        return cmbVolleyball;
     }
+
+    public static int getNumEpreuve() {
+        return numEpreuve;
+    }
+
+    public static Integer getIdSport() {
+        return idSport;
+    }
+
+    public static String getMilieu() {
+        return milieu;
+    }
+    
+
 }
 
