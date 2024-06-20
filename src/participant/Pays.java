@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Pays{
 
     private String nom;
-
     private int nbOr;
 
     private int nbArgent;
@@ -19,6 +18,9 @@ public class Pays{
         this.nom = nom;
         this.num = null;
         this.lesAthletes = new ArrayList<>();
+        this.nbOr = 0;
+        this.nbArgent = 0;
+        this.nbBronze = 0;
     }
 
     public Pays(String nom, Integer num, int nbOr, int nbArgent, int nbBronze) {
@@ -33,6 +35,9 @@ public class Pays{
     public Pays(String nom, Integer num) {
         this.nom = nom;
         this.num = num;
+        this.nbOr = 0;
+        this.nbArgent = 0;
+        this.nbBronze = 0;
     }
 
     //getters

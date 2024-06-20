@@ -94,29 +94,27 @@ public class FenetreOrganisateur extends BorderPane {
     public void ajouteCentre() {
         RadioButton button1 = new RadioButton();
         button1.setToggleGroup(group);
-        button1.setUserData("Natation");
         button1.setText("Natation");
         button1.setSelected(true);
 
         RadioButton button2 = new RadioButton();
         button2.setToggleGroup(group);
         button2.setText("Athlétisme");
-        button2.setUserData("Athlétisme");
+
 
         RadioButton button3 = new RadioButton();
         button3.setToggleGroup(group);
         button3.setText("Escrime");
-        button3.setUserData("Escrime");
+
 
         RadioButton button4 = new RadioButton();
         button4.setToggleGroup(group);
         button4.setText("Handball");
-        button4.setUserData("Handball");
+
 
         RadioButton button5 = new RadioButton();
         button5.setToggleGroup(group);
         button5.setText("Volleyball");
-        button5.setUserData("Volleyball");
 
         VBox vbCentre = new VBox();
         vbCentre.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
@@ -131,26 +129,31 @@ public class FenetreOrganisateur extends BorderPane {
         cmbNatation = new ComboBox<>();
         cmbNatation.getItems().addAll("Natation 100 brasse M", "Natation 100 brasse F","Natation relais libre F","Natation relais libre M");
         cmbNatation.setValue("Catégorie");
+        cmbNatation.setValue(cmbNatation.getItems().get(0));
         cmbNatation.setPrefWidth(150);
 
         cmbAthletisme = new ComboBox<>();
         cmbAthletisme.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
         cmbAthletisme.setValue("Catégorie");
+        cmbAthletisme.setValue(cmbAthletisme.getItems().get(0));
         
         cmbEscrime = new ComboBox<>();
         cmbEscrime.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
         cmbEscrime.setValue("Catégorie");
+        cmbEscrime.setValue(cmbEscrime.getItems().get(0));
         cmbEscrime.setPrefWidth(150);
 
         cmbHandball = new ComboBox<>();
         cmbHandball.getItems().addAll("Handball F", "Handball M");
         cmbHandball.setValue("Catégorie");
+        cmbHandball.setValue(cmbHandball.getItems().get(0));
         cmbHandball.setPrefWidth(150);
 
 
         cmbVolleyball = new ComboBox<>();
         cmbVolleyball.getItems().addAll("Volley-ball F", "Volley-ball M");
         cmbVolleyball.setValue("Catégorie");
+        cmbVolleyball.setValue(cmbVolleyball.getItems().get(0));
         cmbVolleyball.setPrefWidth(150);
 
         GridPane grid = new GridPane();

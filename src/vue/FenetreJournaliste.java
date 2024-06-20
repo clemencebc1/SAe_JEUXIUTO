@@ -2,6 +2,9 @@ package vue;
 import vue.*;
 import participant.*;
 
+import java.util.Map;
+
+import sport.*;
 import java.sql.SQLException;
 import java.util.List;
 import javafx.application.Application;
@@ -54,6 +57,12 @@ public class FenetreJournaliste extends BorderPane{
     private ComboBox<String> comboboxClassement;
     private Articles articles;
     private TableView<Pays> tableview;
+    private Button classement;
+    private Button natation;
+    private Button escrime;
+    private Button athletisme;
+    private Button handball;
+    private Button volleyball;
 
     
 
@@ -62,6 +71,12 @@ public class FenetreJournaliste extends BorderPane{
         this.connexion = btn;
         this.appli = appli;
         this.comboboxClassement = new ComboBox<>();
+        this.classement =  new Button("Classement");
+        this.natation = new Button("Natation");
+        this.escrime = new Button("Escrime");
+        this.athletisme = new Button("Athlétisme"); 
+        this.handball= new Button("Handball"); 
+        this.volleyball = new Button("Volley-Ball");
         this.tableview = new TableView<>();
         TableColumn<Pays, String> pays = new TableColumn<>("Pays"); // initialise le tableau
             TableColumn<Pays, String> medailleOr = new TableColumn<>("Medaille Or");
@@ -95,13 +110,14 @@ public class FenetreJournaliste extends BorderPane{
 /*ajoute les choix de pages*/
     public void ajouteTop(){
         HBox hbChoix = new HBox();
-        Button classement = new Button("Classement");
-        Button natation = new Button("Natation");
-        Button escrime = new Button("Escrime");
-        Button athletisme = new Button("Athlétisme");
-        Button handball = new Button("Handball");
-        Button volleyball = new Button("Volley-Ball");
+      
         classement.setOnAction(new ControleurClassement(this.appli));
+        natation.setOnAction(new ControleurClassement(this.appli));
+        escrime.setOnAction(new ControleurClassement(this.appli));
+        athletisme.setOnAction(new ControleurClassement(this.appli));
+        handball.setOnAction(new ControleurClassement(this.appli));
+        volleyball.setOnAction(new ControleurClassement(this.appli));
+        
 
         classement.setStyle("-fx-background-radius: 1em;");
         natation.setStyle("-fx-background-radius: 1em;");
@@ -123,24 +139,14 @@ public class FenetreJournaliste extends BorderPane{
         this.setTop(hbChoix);
     
     }
-    /*ajoute les choix de recherche pour le classement*/
-    public void recherche(){
-        HBox hbRecherche = new HBox();
-        TextField tfRecherche = new TextField();
-        Button boutonRecherche = new Button("Rechercher");
-        hbRecherche.getChildren().addAll(tfRecherche, boutonRecherche);
-        this.setCenter(hbRecherche);
-        HBox.setMargin(tfRecherche, new Insets(10));
-        HBox.setMargin(boutonRecherche, new Insets(10));
-        hbRecherche.setAlignment(Pos.TOP_CENTER);
-        tfRecherche.setPromptText("Pays, athlète...");
 
-    }
+
     /*creer un tableau avec le classement*/
     public void classement(){
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
         this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
         VBox vbClassement = new VBox();
-        this.comboboxClassement.setOnAction(new ControleurChoixClassement(appli));;
+        this.comboboxClassement.setOnAction(new ControleurChoixClassement(appli));
         comboboxClassement.getSelectionModel().selectFirst();
 
         try { List<Pays> listeClassement = this.appli.getBD().classement();
@@ -161,14 +167,566 @@ public class FenetreJournaliste extends BorderPane{
 
     }
 
-    public void Natation(){
-        ComboBox<String> cbNatation =  new ComboBox<>();
-        cbNatation.getItems().addAll(null;)
+    public void natation(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Natation 100 brasse M", "Natation 100 brasse F");
+        comboboxClassement.getSelectionModel().selectFirst();
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            tableview2.getColumns().add(score);
+            try { 
+                List<Map<Athlete, Double>> points = this.appli.getBD().avoirEpreuveParNom("Natation 100 brasse", "M", FenetreOrganisateur.natation).classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+    public void natation2(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Natation 100 brasse M", "Natation 100 brasse F");
+        this.comboboxClassement.setValue("Natation 100 brasse F");
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            tableview2.getColumns().add(score);
+            try { 
+                List<Map<Athlete, Double>> points = this.appli.getBD().avoirEpreuveParNom("Natation 100 brasse", "F", FenetreOrganisateur.natation).classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
     }
 
+    public void volleyball(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Volley-ball F", "Volley-ball M");
+        comboboxClassement.getSelectionModel().selectFirst();
+
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Volley-ball", "F", FenetreOrganisateur.volleyball);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+
+    public void volleyball2(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Volley-ball F", "Volley-ball M");
+        this.comboboxClassement.setValue("Volley-Ball M");
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Volley-ball", "M", FenetreOrganisateur.volleyball);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+    public void handball(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.setOnAction(null);
+        comboboxClassement.getItems().addAll("Handball F", "Handball M");
+        comboboxClassement.getSelectionModel().selectFirst();
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Handball", "F", FenetreOrganisateur.handball);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+    public void handball2(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Handball F", "Handball M");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(1));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Handball", "M", FenetreOrganisateur.handball);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+
+    public void ahtletisme(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
+        comboboxClassement.getSelectionModel().selectFirst();
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Athlétisme 110m", "F", FenetreOrganisateur.athletisme);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+
+    public void ahtletisme2(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(1));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Athlétisme 110m", "M", FenetreOrganisateur.athletisme);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+    public void ahtletisme3(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(2));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Athlétisme 4x100m relais", "F", FenetreOrganisateur.athletisme);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+    public void ahtletisme4(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(3));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Athlétisme 4x100m relais", "M", FenetreOrganisateur.athletisme);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+
+    }
+    public void escrime(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
+        comboboxClassement.getSelectionModel().selectFirst();
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Escrime fleuret", "F", FenetreOrganisateur.escrime);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+    }
+    public void escrime1(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(1));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Escrime fleuret", "M", FenetreOrganisateur.escrime);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+    }
+    public void escrime2(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(2));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Escrime épée", "M", FenetreOrganisateur.escrime);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+    }
+
+    public void escrime3(){
+        VBox vbEpreuve = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        comboboxClassement.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(3));
+
+        vbEpreuve.getChildren().addAll(comboboxClassement);
+
+        TableView<Athlete> tableview2 = new TableView<>();
+        TableColumn<Athlete, String> nom = new TableColumn<>("Nom"); // initialise le tableau
+            TableColumn<Athlete, String> prenom = new TableColumn<>("Prenom");
+            TableColumn<Athlete, String> equipe = new TableColumn<>("Equipe");
+            TableColumn<Athlete, Double> score = new TableColumn<>("score");
+            nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+            equipe.setCellValueFactory(new PropertyValueFactory<>("equipe"));
+            score.setCellValueFactory(new PropertyValueFactory<>("score"));
+            tableview2.getColumns().add(nom);
+            tableview2.getColumns().add(prenom);
+            tableview2.getColumns().add(equipe);
+            try { 
+                Epreuve e = this.appli.getBD().avoirEpreuveParNom("Escrime épée", "F", FenetreOrganisateur.escrime);
+                for (Athlete at : this.appli.getBD().athleteEpreuve(e)){
+                    e.ajoutParticipants(at);
+                }
+                List<Map<Athlete, Double>> points = e.classementPoints();
+                for (Map<Athlete, Double> map : points){
+                    for (Athlete a : map.keySet()){
+                        tableview2.getItems().add(a);
+                    }
+                }
+                vbEpreuve.getChildren().add(tableview2);
+            }
+            catch (SQLException e){
+                this.popUpErreurClassement(e).showAndWait();
+            }
+        this.setCenter(vbEpreuve);
+    }
+    
     // arrange le tableau selon medaille argent
     public void trieMedailleArgent(){
         VBox vbClassement = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(1));
         this.tableview.getItems().clear();
         try {
             List<Pays> listeClassement = this.appli.getBD().classementArgent();
@@ -190,9 +748,35 @@ public class FenetreJournaliste extends BorderPane{
     // arrange tableau selon medaille bronze
     public void trieMedailleBronze(){
         VBox vbClassement = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(2));
         this.tableview.getItems().clear();
         try {
             List<Pays> listeClassement = this.appli.getBD().classementBronze();
+            for (Pays p : listeClassement){
+                tableview.getItems().add(p);
+            }
+            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.setAlignment(Pos.CENTER);
+            VBox.setMargin(tableview, new Insets(10));
+            VBox.setMargin(comboboxClassement, new Insets(10));
+            this.setCenter(vbClassement);
+
+        }
+        catch (SQLException e){
+            this.popUpErreurClassement(e).showAndWait();
+        }
+
+    }
+    public void trieMedailleOr(){
+        VBox vbClassement = new VBox();
+        comboboxClassement.getItems().removeAll(comboboxClassement.getItems());
+        this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
+        this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(0));
+        this.tableview.getItems().clear();
+        try {
+            List<Pays> listeClassement = this.appli.getBD().classement();
             for (Pays p : listeClassement){
                 tableview.getItems().add(p);
             }
@@ -230,5 +814,60 @@ public class FenetreJournaliste extends BorderPane{
         BorderPane.setAlignment(connexion, Pos.CENTER);
         BorderPane.setMargin(connexion, new Insets(10));
     }
+    public void initialiseBoutonClassement(){
+        this.classement.setStyle("-fx-background-radius: 1em;");
+    }
+    public void initialiseBoutonNatation(){
+        this.natation.setStyle("-fx-background-radius: 1em;");
+    }
+    public void initialiseBoutonEscrime(){
+        this.escrime.setStyle("-fx-background-radius: 1em;");
+    }
+    public void initialiseBoutonAthletisme(){
+        this.athletisme.setStyle("-fx-background-radius: 1em;");
+    }
+    public void initialiseBoutonHandball(){
+        this.handball.setStyle("-fx-background-radius: 1em;");
+    }
+    public void initialiseBoutonVolleyball(){
+        this.volleyball.setStyle("-fx-background-radius: 1em;");
+    }
+
+    public ComboBox<String> getComboboxClassement() {
+        return comboboxClassement;
+    }
+
+    public Articles getArticles() {
+        return articles;
+    }
+
+    public TableView<Pays> getTableview() {
+        return tableview;
+    }
+
+    public Button getClassement() {
+        return classement;
+    }
+
+    public Button getNatation() {
+        return natation;
+    }
+
+    public Button getEscrime() {
+        return escrime;
+    }
+
+    public Button getAthletisme() {
+        return athletisme;
+    }
+
+    public Button getHandball() {
+        return handball;
+    }
+
+    public Button getVolleyball() {
+        return volleyball;
+    }
+    
 
 }

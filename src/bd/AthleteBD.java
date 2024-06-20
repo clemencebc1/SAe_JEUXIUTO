@@ -482,7 +482,15 @@ public Epreuve avoirEpreuveParNom(String nom, String categorie, Sport sport) thr
 	}
 	return epreuve;
 }
-
+public List<Athlete> athleteEpreuve(Epreuve e) throws SQLException{
+	this.st = this.laConnexion.createStatement();
+	ResultSet rs = this.st.executeQuery("select * from EPREUVE natural join PARTICIPER natural join ATHLETE natural join PAYS where categorie ='F'and nom='Volley-Ball'");
+	List<Athlete> liste = new ArrayList<>();
+	while (rs.next()){
+		liste.add(new Athlete(rs.getString("nom_A"), rs.getString("prenom_A"), rs.getString("sexe_A"), rs.getInt("force_A"), rs.getInt("agilite"), rs.getInt("endurance"), new Pays(rs.getString("nom_P")), rs.getInt("id_A")));
+	}
+	return liste;
+}
 }
 
 

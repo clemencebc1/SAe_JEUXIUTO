@@ -21,7 +21,6 @@ public class Epreuve {
     /** la categorie de l'epreuve */
     private String categorie;
     /** le style de l'epreuve */
-
     private Sport sport;
     private Integer num;
     private List<Athlete> participants;
@@ -29,6 +28,7 @@ public class Epreuve {
     public Epreuve(String nom, String cat, Sport sport,Integer num){
         this.nom = nom;
         this.categorie = cat;
+        this.sport = sport;
         this.num = num;
         this.participants = new ArrayList<>();
     }
@@ -43,7 +43,6 @@ public class Epreuve {
     public Integer getNum() {
         return num;
     }
-
     public List<Athlete> getParticipants(){
         return this.participants;
     }
@@ -115,7 +114,6 @@ public class Epreuve {
         }
         return athletes;
     }
-
     public List<Map<Athlete, Double>> classementPoints(){
         List<Map<Athlete, Double>> classement = new ArrayList<>();
             for (Athlete a : this.participants){
@@ -125,23 +123,7 @@ public class Epreuve {
             }
             Comparator<Map<Athlete,Double>> comparateur = new ComparePoints();
             Collections.sort(classement, comparateur);
-            Map<Athlete,Double> numero1 = classement.get(0);
-            Map<Athlete,Double> numero2 = classement.get(1);
-            Map<Athlete,Double> numero3 = classement.get(2);
-            Set<Athlete> num1 = numero1.keySet();
-            Set<Athlete> num2 = numero2.keySet();
-            Set<Athlete> num3 = numero3.keySet();
-            for (Athlete a : num1){
-                a.getPays().setNbOr(a.getPays().getNbOr() + 1);
-            }
-            for (Athlete a : num2){
-                a.getPays().setNbArgent(a.getPays().getNbArgent() + 1);
-            }
-            for (Athlete a : num3){
-                a.getPays().setNbBronze(a.getPays().getNbBronze() + 1);
-            }
             return classement;
-            
     }
 
     @Override
@@ -150,6 +132,4 @@ public class Epreuve {
                 + ", participants " + participants;
     }
     
-
 }
-
