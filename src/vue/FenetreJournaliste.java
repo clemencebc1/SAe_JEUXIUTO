@@ -161,6 +161,26 @@ public class FenetreJournaliste extends BorderPane{
 
     }
 
+    public void trieMedailleOr(){
+        VBox vbClassement = new VBox();
+        this.tableview.getItems().clear();
+        try {
+            List<Pays> listeClassement = this.appli.getBD().classement();
+            for (Pays p : listeClassement){
+                tableview.getItems().add(p);
+            }
+            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.setAlignment(Pos.CENTER);
+            VBox.setMargin(tableview, new Insets(10));
+            VBox.setMargin(comboboxClassement, new Insets(10));
+            this.setCenter(vbClassement);
+
+        }
+        catch (SQLException e){
+            this.popUpErreurClassement(e).showAndWait();
+        }
+    }
+
     // arrange le tableau selon medaille argent
     public void trieMedailleArgent(){
         VBox vbClassement = new VBox();

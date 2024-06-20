@@ -28,8 +28,8 @@ public class ControleurChoixClassement implements EventHandler<ActionEvent>{
         else if (cb.getSelectionModel().getSelectedItem()=="Medaille Bronze"){
             this.appli.getFenetreJourna().trieMedailleBronze();
         }
-        else {
-            this.appli.getFenetreJourna().classement();
+        else if (cb.getSelectionModel().getSelectedItem()=="Medaille Or"){ 
+            this.appli.getFenetreJourna().trieMedailleOr();
         }
 
 
