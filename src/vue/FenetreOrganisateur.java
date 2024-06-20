@@ -60,7 +60,7 @@ public class FenetreOrganisateur extends BorderPane {
 
     public FenetreOrganisateur(Button btn, FenetreAccueil appli) {
         super();
-        this.lancerE = new Button("C'est parti !");
+        this.lancerE = new Button(" Lancer l'épreuve");
         this.deco =btn;
         this.appli = appli;
         this.group = new ToggleGroup();
@@ -126,27 +126,28 @@ public class FenetreOrganisateur extends BorderPane {
         cmbNatation = new ComboBox<>();
         cmbNatation.getItems().addAll("Natation 100 brasse H", "Natation 100 brasse F","Natation relais libre F","Natation relais libre H");
         cmbNatation.setValue("Catégorie");
-        cmbNatation.setPrefWidth(150);
+        cmbNatation.setPrefWidth(200);
 
         cmbAthletisme = new ComboBox<>();
         cmbAthletisme.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m H","Athlétisme 4x100m relais F","Athlétisme 4x100m relais H");
         cmbAthletisme.setValue("Catégorie");
+        cmbAthletisme.setPrefWidth(200);
         
         cmbEscrime = new ComboBox<>();
         cmbEscrime.getItems().addAll("Escrime fleuret F", "Escrime fleuret H","Escrime épée M" , "Escrime épée F");
         cmbEscrime.setValue("Catégorie");
-        cmbEscrime.setPrefWidth(150);
+        cmbEscrime.setPrefWidth(200);
 
         cmbHandball = new ComboBox<>();
         cmbHandball.getItems().addAll("Handball F", "Handball M");
         cmbHandball.setValue("Catégorie");
-        cmbHandball.setPrefWidth(150);
+        cmbHandball.setPrefWidth(200);
 
 
         cmbVolleyball = new ComboBox<>();
         cmbVolleyball.getItems().addAll("Volley-ball F", "Volley-ball H");
         cmbVolleyball.setValue("Catégorie");
-        cmbVolleyball.setPrefWidth(150);
+        cmbVolleyball.setPrefWidth(200);
 
         GridPane grid = new GridPane();
         this.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
@@ -174,7 +175,8 @@ public class FenetreOrganisateur extends BorderPane {
         grid.add(cmbEscrime, 2, 2);
         grid.add(cmbHandball, 2, 3);
         grid.add(cmbVolleyball, 2, 4);
-        this.lancerE.setOnAction(new ControleurLancer(appli));
+        this.lancerE.setOnAction(new ControleurRadioButtonOrga(appli));
+
     }
 
 
@@ -191,49 +193,32 @@ public class FenetreOrganisateur extends BorderPane {
     }
 
         //getters
+    
     public ToggleGroup getGroup(){
         return this.group;
     }
 
-
-    public FenetreAccueil getAppli() {
-        return appli;
+    public ComboBox<String> getCmbNatation(){
+        return this.cmbNatation;
     }
 
-
-
-    public ComboBox<String> getCmbNatation() {
-        return cmbNatation;
+    public ComboBox<String> getCmbAthletisme(){
+        return this.cmbAthletisme;
     }
 
-    public ComboBox<String> getCmbAthletisme() {
-        return cmbAthletisme;
+    public ComboBox<String> getCmbEscrime(){
+        return this.cmbEscrime;
     }
 
-    public ComboBox<String> getCmbEscrime() {
-        return cmbEscrime;
+    public ComboBox<String> getCmbHandball(){
+        return this.cmbHandball;
     }
 
-    public ComboBox<String> getCmbHandball() {
-        return cmbHandball;
+    public ComboBox<String> getCmbVolleyball(){
+        return this.cmbVolleyball;
     }
-
-    public ComboBox<String> getCmbVolleyball() {
-        return cmbVolleyball;
+    public RadioButton getSelectedToggle() {
+        return (RadioButton) group.getSelectedToggle();
     }
-
-    public static int getNumEpreuve() {
-        return numEpreuve;
-    }
-
-    public static Integer getIdSport() {
-        return idSport;
-    }
-
-    public static String getMilieu() {
-        return milieu;
-    }
-    
-
 }
 
