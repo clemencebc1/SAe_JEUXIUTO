@@ -19,11 +19,12 @@ public class ControleurLancer implements EventHandler<ActionEvent>{
     @Override
     public void handle(ActionEvent event){
         try {
-        RadioButton r = (RadioButton) this.appli.getFenetreOrganisateur().getGroup().getUserData();
+        RadioButton r = (RadioButton) this.appli.getFenetreOrganisateur().getGroup().getSelectedToggle();
         String choixSport = r.getText();
         String style = "";
         String sexe = null;
         Epreuve e = null;
+
         switch (choixSport){
             case "Natation": style = this.appli.getFenetreOrganisateur().getCmbNatation().getValue();
             sexe = style.charAt(style.length()-1)+"";
@@ -51,7 +52,11 @@ public class ControleurLancer implements EventHandler<ActionEvent>{
         this.appli.getFenetreOrganisateur().popUpEpreuveLancee().showAndWait();
     }
     catch (SQLException e){
-        this.appli.getFenetreAdmin().popUpBaseDeDonnees().showAndWait();
+        System.err.println(e.getMessage());
+        this.appli.getFenetreOrganisateur().popUpBaseDeDonnees().showAndWait();
+    }
+    catch (PasDeParticipantException e){
+        this.appli.getFenetreOrganisateur().popUpPasDeParticipant().showAndWait();
     }
 
 
