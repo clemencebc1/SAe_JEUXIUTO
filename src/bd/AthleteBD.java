@@ -308,6 +308,7 @@ public List<?> voirResEpreuve(CompareMedailleOr comp, Tri tri, Epreuve e)throws 
 
 	}
 
+
 	
 	public void majAthlete(Athlete a)throws SQLException{
 		PreparedStatement ps = this.laConnexion.prepareStatement("UPDATE ATHLETE SET nom_A = ?,prenom_A = ?, sexe_A=?,id_P=?,force_A=?,endurance=?, agilite = ?, id_E = ? where nom_A = ? and prenom_A=? and sexe_A=? and id_P=?" );
@@ -484,7 +485,10 @@ public Epreuve avoirEpreuveParNom(String nom, String categorie, Sport sport) thr
 }
 public List<Athlete> athleteEpreuve(Epreuve e) throws SQLException{
 	this.st = this.laConnexion.createStatement();
-	ResultSet rs = this.st.executeQuery("select * from EPREUVE natural join PARTICIPER natural join ATHLETE natural join PAYS where categorie ='F'and nom='Volley-Ball'");
+	PreparedStatement ps = this.laConnexion.prepareStatement("select * from EPREUVE natural join PARTICIPER natural join ATHLETE natural join PAYS where categorie =? and nom=?");
+	ps.setString(1,e.getCategorie());
+	ps.setString(2,e.getNom());
+	ResultSet rs = ps.executeQuery();
 	List<Athlete> liste = new ArrayList<>();
 	while (rs.next()){
 		liste.add(new Athlete(rs.getString("nom_A"), rs.getString("prenom_A"), rs.getString("sexe_A"), rs.getInt("force_A"), rs.getInt("agilite"), rs.getInt("endurance"), new Pays(rs.getString("nom_P")), rs.getInt("id_A")));

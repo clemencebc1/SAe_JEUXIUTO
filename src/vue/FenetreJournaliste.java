@@ -63,12 +63,16 @@ public class FenetreJournaliste extends BorderPane{
     private Button athletisme;
     private Button handball;
     private Button volleyball;
+    private Button info;
 
     
 
     public FenetreJournaliste(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
+        ImageView infoImage = new ImageView(new Image("file:./img/info.png",15,15,false,false));
+        this.info = new Button("infos",infoImage);
+        this.info.setOnAction(new ControleurInfoPage(appli));
         this.appli = appli;
         this.comboboxClassement = new ComboBox<>();
         this.classement =  new Button("Classement");
@@ -97,6 +101,7 @@ public class FenetreJournaliste extends BorderPane{
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();
+        this.ajouteCenter();
     }
 
     /** ajout de l'image
@@ -105,6 +110,11 @@ public class FenetreJournaliste extends BorderPane{
         ImageView imageJO = new ImageView(new Image("file:./img/LogoJO.jpeg",150,100,false,false));
         this.setRight(imageJO);
 
+    }
+    public void ajouteCenter(){
+        this.setCenter(info);
+        BorderPane.setAlignment(info, Pos.TOP_CENTER);
+        BorderPane.setMargin(info, new Insets(15));
     }
 
 /*ajoute les choix de pages*/
@@ -139,6 +149,7 @@ public class FenetreJournaliste extends BorderPane{
         this.setTop(hbChoix);
     
     }
+
 
 
     /*creer un tableau avec le classement*/
@@ -728,12 +739,13 @@ public class FenetreJournaliste extends BorderPane{
         this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
         this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(1));
         this.tableview.getItems().clear();
+        Text info = new Text("Vous trouverez le classement des pays en fonction de leurs médailles (or, argent, bronze)");
         try {
             List<Pays> listeClassement = this.appli.getBD().classementArgent();
             for (Pays p : listeClassement){
                 tableview.getItems().add(p);
             }
-            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.getChildren().addAll(info,comboboxClassement,tableview);
             vbClassement.setAlignment(Pos.CENTER);
             VBox.setMargin(tableview, new Insets(10));
             VBox.setMargin(comboboxClassement, new Insets(10));
@@ -752,12 +764,13 @@ public class FenetreJournaliste extends BorderPane{
         this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
         this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(2));
         this.tableview.getItems().clear();
+        Text info = new Text("Vous trouverez le classement des pays en fonction de leurs médailles (or, argent, bronze)");
         try {
             List<Pays> listeClassement = this.appli.getBD().classementBronze();
             for (Pays p : listeClassement){
                 tableview.getItems().add(p);
             }
-            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.getChildren().addAll(info,comboboxClassement,tableview);
             vbClassement.setAlignment(Pos.CENTER);
             VBox.setMargin(tableview, new Insets(10));
             VBox.setMargin(comboboxClassement, new Insets(10));
@@ -775,12 +788,13 @@ public class FenetreJournaliste extends BorderPane{
         this.comboboxClassement.getItems().addAll("Medaille Or", "Medaille Argent", "Medaille Bronze");
         this.comboboxClassement.setValue(this.comboboxClassement.getItems().get(0));
         this.tableview.getItems().clear();
+        Text info = new Text("Vous trouverez le classement des pays en fonction de leurs médailles (or, argent, bronze)");
         try {
             List<Pays> listeClassement = this.appli.getBD().classement();
             for (Pays p : listeClassement){
                 tableview.getItems().add(p);
             }
-            vbClassement.getChildren().addAll(comboboxClassement,tableview);
+            vbClassement.getChildren().addAll(info,comboboxClassement,tableview);
             vbClassement.setAlignment(Pos.CENTER);
             VBox.setMargin(tableview, new Insets(10));
             VBox.setMargin(comboboxClassement, new Insets(10));
@@ -805,6 +819,7 @@ public class FenetreJournaliste extends BorderPane{
     public Alert popUpErreurClassement(SQLException e){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Erreur dans la base de données\n"+e.getMessage(), ButtonType.OK);
         alert.setTitle("Attention");
+        alert.setHeaderText("1.1 Erreur base de données");
         return alert;
     }
 

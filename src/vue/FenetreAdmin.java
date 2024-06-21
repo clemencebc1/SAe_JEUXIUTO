@@ -22,6 +22,8 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.control.Button;
@@ -64,11 +66,16 @@ public class FenetreAdmin extends BorderPane{
     private Button modifier;
     private TextField userRole;
     private TableView<Utilisateur> tableviewUser;
+    private Button info;
+    
 
     public FenetreAdmin(Button btn,FenetreAccueil appli){
         super();
         this.connexion = btn;
         this.appli = appli;
+        ImageView infoImage = new ImageView(new Image("file:./img/info.png",15,15,false,false));
+        this.info = new Button("infos",infoImage);
+        this.info.setOnAction(new ControleurInfoPage(appli));
         this.userRole = new TextField(); // initialise tableau
         this.saisir = new Button("Saisir données");
         this.supprimer= new Button("Supprimer des données");
@@ -104,13 +111,16 @@ public class FenetreAdmin extends BorderPane{
         tableviewUser.getColumns().add(nomU);
         tableviewUser.getColumns().add(role);
 
-
-    
-
         this.ajouteTop();
         this.ajouteImage();
         this.ajouteBottom();
+        this.ajouteCenter();
         
+    }
+    public void ajouteCenter(){
+        this.setCenter(info);
+        BorderPane.setAlignment(info, Pos.TOP_CENTER);
+        BorderPane.setMargin(info, new Insets(15));
     }
 
     // ajoute les images
@@ -121,7 +131,7 @@ public class FenetreAdmin extends BorderPane{
 
     // ajoute la naviguation 
     public void ajouteTop(){
-        HBox HTop = new HBox();
+        HBox hTop = new HBox();
         saisir.setOnAction(new ControleurSaisirDonnees(this.appli));
         supprimer.setOnAction(new ControleurSupprimerDonnees(appli));
         modifier.setOnAction(new ControleurModifDonnees(appli));
@@ -130,17 +140,18 @@ public class FenetreAdmin extends BorderPane{
         this.etatInitialBoutonModifier();
         this.etatInitialBoutonSupp();
         
-        HTop.getChildren().addAll(saisir,supprimer,modifier);
-        HTop.setAlignment(Pos.CENTER);
+        hTop.getChildren().addAll(saisir,supprimer,modifier);
+        hTop.setAlignment(Pos.CENTER);
 
         HBox.setMargin(saisir, new Insets(10)); 
         HBox.setMargin(supprimer, new Insets(10));
         HBox.setMargin(modifier, new Insets(10));
+        hTop.setAlignment(Pos.CENTER);
    
 
-        HTop.setBackground(new Background(new BackgroundFill(Color.GREEN, null,null)));
+        hTop.setBackground(new Background(new BackgroundFill(Color.GREEN, null,null)));
 
-        this.setTop(HTop);
+        this.setTop(hTop);
     
     }
     // remet à l'état initial les boutons (style)
@@ -157,14 +168,19 @@ public class FenetreAdmin extends BorderPane{
     // choix de saisie des données, ajoute des ahtletes ou epreuve
     public void saisirDonnees(){
         HBox hbSaisirDonnees = new HBox();
+        VBox vb = new VBox();
+        Text indication = new Text("Vous pouvez ajouter des athlètes ou des épreuves à la base de données,\ncliquez pour sélectionner votre choix.");
         Button athlete = new Button("Ajouter un athlète");
         athlete.setOnAction(new ControleurSaisirDonneesAthlete(this.appli));
         Button epreuve = new Button("Ajouter une epreuve");
+        vb.getChildren().addAll(indication,hbSaisirDonnees);
         hbSaisirDonnees.getChildren().addAll(athlete, epreuve);
+        indication.setFont(Font.font(" Arial" ,FontWeight.NORMAL , 15));
         HBox.setMargin(athlete, new Insets(10)); 
         HBox.setMargin(epreuve, new Insets(10));
+        vb.setAlignment(Pos.CENTER);
         hbSaisirDonnees.setAlignment(Pos.CENTER);
-        this.setCenter(hbSaisirDonnees);
+        this.setCenter(vb);
 
     }
 
@@ -292,6 +308,7 @@ public class FenetreAdmin extends BorderPane{
     public void saisirDonneesAthlete(){
         BorderPane bpSaisieAthlete = new BorderPane(); 
         VBox vbSaisirDonnees = new VBox();
+        Text indication = new Text("Pour ajouter un athlète, remplissez les zones de texte");
 
         HBox hbTf = new HBox();
         this.tnom = new TextField();
@@ -338,7 +355,7 @@ public class FenetreAdmin extends BorderPane{
         Button creer = new Button("Créer");
         creer.setOnAction(new ControleurCreerAthlete(this.appli));
 
-        vbSaisirDonnees.getChildren().addAll(hbTf,creer);
+        vbSaisirDonnees.getChildren().addAll(indication,hbTf,creer);
         vbSaisirDonnees.setAlignment(Pos.CENTER);
         
         bpSaisieAthlete.setBottom(vbSaisirDonnees);
@@ -366,8 +383,11 @@ public class FenetreAdmin extends BorderPane{
         this.setCenter(bpSaisieAthlete);
         this.tableview.setOnMouseClicked(null); // on s'assure qu'il n'y a pas de controleur actif (supprimer donnees)
     }
+    
 
     public void supprimerDonnees(){
+        VBox vb = new VBox();
+        Text indication = new Text("Pour supprimer une athlète, cliquez sur la ligne");
         try {
             if (!(this.appli.getBD().maxNumAthlete()==-1)){
                 int indice = 1;
@@ -387,7 +407,12 @@ public class FenetreAdmin extends BorderPane{
         System.err.println(e.getMessage());
 
     }
-    this.setCenter(tableview);
+    vb.getChildren().addAll(indication,tableview);
+    VBox.setMargin(indication, new Insets(15));
+    VBox.setMargin(tableview, new Insets(15));
+    vb.setAlignment(Pos.CENTER);
+    
+    this.setCenter(vb);
 
     }
 
@@ -403,7 +428,7 @@ public class FenetreAdmin extends BorderPane{
     public Alert popUpBaseDeDonnees(){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Une erreur avec la base de données est survenue", ButtonType.OK);
         alert.setTitle("Attention");
-        alert.setHeaderText("Erreur affichage tableau");
+        alert.setHeaderText("1.1 Erreur affichage tableau");
         return alert;
 
     }
@@ -447,6 +472,7 @@ public class FenetreAdmin extends BorderPane{
         BorderPane.setMargin(connexion, new Insets(20));
 
     }
+
 
 // getters et setters
     public Button getConnexion() {

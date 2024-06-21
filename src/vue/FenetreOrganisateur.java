@@ -118,9 +118,9 @@ public class FenetreOrganisateur extends BorderPane {
 
         VBox vbCentre = new VBox();
         vbCentre.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
-        HBox hbTitre = new HBox();
+        VBox hbTitre = new VBox();
         hbTitre.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
-        hbTitre.getChildren().add(new Text("LES ÉPREUVES"));
+        hbTitre.getChildren().addAll(new Text("LES ÉPREUVES"), new Text("Sélectionnez le sport et son épreuve"));
         hbTitre.setAlignment(Pos.CENTER);
         hbTitre.setPadding(new Insets(10));
         vbCentre.getChildren().addAll(hbTitre);
@@ -162,19 +162,14 @@ public class FenetreOrganisateur extends BorderPane {
         grid.setVgap(5);
         grid.setHgap(5);
         grid.setAlignment(Pos.CENTER);
-        grid.setBackground(new Background(new BackgroundFill(Color.GAINSBORO, null, null)));
+        grid.setStyle("-fx-background-color: LAVENDERBLUSH; -fx-background-radius: 6em;");
         grid.add(button1, 0, 0);
         grid.add(button2, 0, 1);
         grid.add(button3, 0, 2);
         grid.add(button4, 0, 3);
         grid.add(button5, 0, 4);
-        grid.add(new Label("NATATION"), 1, 0);
-        grid.add(new Label("ATHLÉTISME"), 1, 1);
-        grid.add(new Label("ESCRIME"), 1, 2);
-        grid.add(new Label("HANDBALL"), 1, 3);
-        grid.add(new Label("VOLLEYBALL"), 1, 4);
 
-        vbCentre.getChildren().addAll(grid, this.lancerE);
+        vbCentre.getChildren().addAll(grid, new Text("Pour lancer l'épreuve, cliquez sur le bouton ci-dessous"),this.lancerE);
         vbCentre.setAlignment(Pos.CENTER);
         VBox.setMargin(this.lancerE, new Insets(25));
         grid.add(cmbNatation, 2, 0);
@@ -187,14 +182,14 @@ public class FenetreOrganisateur extends BorderPane {
     public Alert popUpBaseDeDonnees(){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Une erreur avec la base de données est survenue", ButtonType.OK);
         alert.setTitle("Attention");
-        alert.setHeaderText("Erreur affichage tableau");
+        alert.setHeaderText("1.1 Erreur affichage tableau");
         return alert;
 
     }
     public Alert popUpPasDeParticipant(){
         Alert alert = new Alert(Alert.AlertType.WARNING,"Il n'y a pas de participants à cette épreuve", ButtonType.OK);
         alert.setTitle("Attention");
-        alert.setHeaderText("Pas de participants");
+        alert.setHeaderText("1.2 Pas de participants");
         return alert;
 
     }

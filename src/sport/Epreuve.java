@@ -32,6 +32,13 @@ public class Epreuve {
         this.num = num;
         this.participants = new ArrayList<>();
     }
+    public Epreuve(String nom, String cat, Sport sport){
+        this.nom = nom;
+        this.categorie = cat;
+        this.sport = sport;
+        this.num = null;
+        this.participants = new ArrayList<>();
+    }
 
     // getters
     public String getNom(){

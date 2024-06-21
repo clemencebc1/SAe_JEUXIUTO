@@ -12,7 +12,6 @@ public class ConnexionMySQL {
 	}
 
 	public void connecter(String nomServeur, String nomBase, String nomLogin, String motDePasse) throws SQLException {
-		System.out.println("ok2");
 			this.mysql = DriverManager.getConnection("jdbc:mysql://"+nomServeur+":3306/"+nomBase, nomLogin, motDePasse);
 			// si tout c'est bien passé la connexion n'est plus nulle
 
