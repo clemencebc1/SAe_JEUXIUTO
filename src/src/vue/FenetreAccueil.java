@@ -5,6 +5,7 @@ import javax.sound.sampled.Control;
 
 import bd.*;
 import vue.*;
+import sport.*;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -103,7 +104,7 @@ public class FenetreAccueil extends Application {
     }
     // modification du root pour afficher la fenetre de connexion
     public void seConnecter(){
-        this.fenetreCo = new FenetreConnexion(boutonConnexion, inscri);
+        this.fenetreCo = new FenetreConnexion(boutonConnexion, inscri, this);
        this.root = this.fenetreCo;
        this.boutonConnexion.setText("Connexion");
 
@@ -135,7 +136,7 @@ public class FenetreAccueil extends Application {
     public Alert popUpErreurConnexion(){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Erreur de connexion, votre login ou password est invalide", ButtonType.OK);
         alert.setTitle("Attention");
-        alert.setHeaderText("Invalide");
+        alert.setHeaderText("1.3 Invalide");
         return alert;
     }
 
@@ -144,6 +145,13 @@ public class FenetreAccueil extends Application {
         alert.setTitle("Connexion");
         alert.setHeaderText("Connecté");
         return alert;
+    }
+    public Alert popUpInfo(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Cliquez sur l'onglet pour sélectionner \nla visualisation de classement", ButtonType.OK);
+        alert.setTitle("Informations");
+        alert.setHeaderText("Informations utilisation");
+        return alert;
+
     }
 
 

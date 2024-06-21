@@ -94,35 +94,33 @@ public class FenetreOrganisateur extends BorderPane {
     public void ajouteCentre() {
         RadioButton button1 = new RadioButton();
         button1.setToggleGroup(group);
-        button1.setUserData("Natation");
         button1.setText("Natation");
         button1.setSelected(true);
 
         RadioButton button2 = new RadioButton();
         button2.setToggleGroup(group);
         button2.setText("Athlétisme");
-        button2.setUserData("Athlétisme");
+
 
         RadioButton button3 = new RadioButton();
         button3.setToggleGroup(group);
         button3.setText("Escrime");
-        button3.setUserData("Escrime");
+
 
         RadioButton button4 = new RadioButton();
         button4.setToggleGroup(group);
         button4.setText("Handball");
-        button4.setUserData("Handball");
+
 
         RadioButton button5 = new RadioButton();
         button5.setToggleGroup(group);
         button5.setText("Volleyball");
-        button5.setUserData("Volleyball");
 
         VBox vbCentre = new VBox();
         vbCentre.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
-        HBox hbTitre = new HBox();
+        VBox hbTitre = new VBox();
         hbTitre.setBackground(new Background(new BackgroundFill(Color.rgb(255, 230, 230), null, null)));
-        hbTitre.getChildren().add(new Text("LES ÉPREUVES"));
+        hbTitre.getChildren().addAll(new Text("LES ÉPREUVES"), new Text("Sélectionnez le sport et son épreuve"));
         hbTitre.setAlignment(Pos.CENTER);
         hbTitre.setPadding(new Insets(10));
         vbCentre.getChildren().addAll(hbTitre);
@@ -131,26 +129,31 @@ public class FenetreOrganisateur extends BorderPane {
         cmbNatation = new ComboBox<>();
         cmbNatation.getItems().addAll("Natation 100 brasse M", "Natation 100 brasse F","Natation relais libre F","Natation relais libre M");
         cmbNatation.setValue("Catégorie");
+        cmbNatation.setValue(cmbNatation.getItems().get(0));
         cmbNatation.setPrefWidth(150);
 
         cmbAthletisme = new ComboBox<>();
         cmbAthletisme.getItems().addAll("Athlétisme 110m F", "Athlétisme 110m M","Athlétisme 4x100m relais F","Athlétisme 4x100m relais M");
         cmbAthletisme.setValue("Catégorie");
+        cmbAthletisme.setValue(cmbAthletisme.getItems().get(0));
         
         cmbEscrime = new ComboBox<>();
         cmbEscrime.getItems().addAll("Escrime fleuret F", "Escrime fleuret M","Escrime épée M" , "Escrime épée F");
         cmbEscrime.setValue("Catégorie");
+        cmbEscrime.setValue(cmbEscrime.getItems().get(0));
         cmbEscrime.setPrefWidth(150);
 
         cmbHandball = new ComboBox<>();
         cmbHandball.getItems().addAll("Handball F", "Handball M");
         cmbHandball.setValue("Catégorie");
+        cmbHandball.setValue(cmbHandball.getItems().get(0));
         cmbHandball.setPrefWidth(150);
 
 
         cmbVolleyball = new ComboBox<>();
         cmbVolleyball.getItems().addAll("Volley-ball F", "Volley-ball M");
         cmbVolleyball.setValue("Catégorie");
+        cmbVolleyball.setValue(cmbVolleyball.getItems().get(0));
         cmbVolleyball.setPrefWidth(150);
 
         GridPane grid = new GridPane();
@@ -159,19 +162,14 @@ public class FenetreOrganisateur extends BorderPane {
         grid.setVgap(5);
         grid.setHgap(5);
         grid.setAlignment(Pos.CENTER);
-        grid.setBackground(new Background(new BackgroundFill(Color.GAINSBORO, null, null)));
+        grid.setStyle("-fx-background-color: LAVENDERBLUSH; -fx-background-radius: 6em;");
         grid.add(button1, 0, 0);
         grid.add(button2, 0, 1);
         grid.add(button3, 0, 2);
         grid.add(button4, 0, 3);
         grid.add(button5, 0, 4);
-        grid.add(new Label("NATATION"), 1, 0);
-        grid.add(new Label("ATHLÉTISME"), 1, 1);
-        grid.add(new Label("ESCRIME"), 1, 2);
-        grid.add(new Label("HANDBALL"), 1, 3);
-        grid.add(new Label("VOLLEYBALL"), 1, 4);
 
-        vbCentre.getChildren().addAll(grid, this.lancerE);
+        vbCentre.getChildren().addAll(grid, new Text("Pour lancer l'épreuve, cliquez sur le bouton ci-dessous"),this.lancerE);
         vbCentre.setAlignment(Pos.CENTER);
         VBox.setMargin(this.lancerE, new Insets(25));
         grid.add(cmbNatation, 2, 0);
@@ -184,14 +182,14 @@ public class FenetreOrganisateur extends BorderPane {
     public Alert popUpBaseDeDonnees(){
         Alert alert = new Alert(Alert.AlertType.ERROR,"Une erreur avec la base de données est survenue", ButtonType.OK);
         alert.setTitle("Attention");
-        alert.setHeaderText("Erreur affichage tableau");
+        alert.setHeaderText("1.1 Erreur affichage tableau");
         return alert;
 
     }
     public Alert popUpPasDeParticipant(){
         Alert alert = new Alert(Alert.AlertType.WARNING,"Il n'y a pas de participants à cette épreuve", ButtonType.OK);
         alert.setTitle("Attention");
-        alert.setHeaderText("Pas de participants");
+        alert.setHeaderText("1.2 Pas de participants");
         return alert;
 
     }

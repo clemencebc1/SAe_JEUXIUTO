@@ -22,21 +22,27 @@ public class ControleurChoixClassement implements EventHandler<ActionEvent>{
     @Override
     public void handle(ActionEvent event){
             ComboBox<String> cb = (ComboBox<String>) event.getSource();
-        if (cb.getSelectionModel().getSelectedItem()=="Medaille Argent"){
-            this.appli.getFenetreJourna().trieMedailleArgent();
-        }
-        else if (cb.getSelectionModel().getSelectedItem()=="Medaille Bronze"){
-            this.appli.getFenetreJourna().trieMedailleBronze();
-        }
-        else {
-            this.appli.getFenetreJourna().classement();
-        }
-
-
-            
-        
-
-            
+            String choix = cb.getSelectionModel().getSelectedItem();
+            switch (choix){
+                case "Medaille Argent":
+                this.appli.getFenetreJourna().trieMedailleArgent();break;
+            case "Medialle Bronze": this.appli.getFenetreJourna().trieMedailleBronze();break;
+            case "Medaille Or": this.appli.getFenetreJourna().trieMedailleOr();break;
+            case "Natation 100 brasse M": this.appli.getFenetreJourna().natation();break;
+            case "Natation 100 brasse F": this.appli.getFenetreJourna().natation2();break;
+            case "Volley-ball F":  this.appli.getFenetreJourna().volleyball();break;
+            case "Volley-ball M":this.appli.getFenetreJourna().volleyball2();break;
+            case "Handball F": this.appli.getFenetreJourna().handball();break;
+            case "Handball M": this.appli.getFenetreJourna().handball2();break;
+            case "Athlétisme 110m F": this.appli.getFenetreJourna().ahtletisme();break;
+            case "Athlétisme 110m M": this.appli.getFenetreJourna().ahtletisme2();break;
+            case "Athlétisme 4x100m relais F": this.appli.getFenetreJourna().ahtletisme3();break;
+            case "Athlétisme 4x100m relais M": this.appli.getFenetreJourna().ahtletisme4();break;
+            case "Escrime fleuret F": this.appli.getFenetreJourna().escrime();break;
+            case "Escrime fleuret M": this.appli.getFenetreJourna().escrime1();break;
+            case "Escrime épée M": this.appli.getFenetreJourna().escrime2();break;
+            case "Escrime épée F": this.appli.getFenetreJourna().escrime3();break;
 
     }
+}
 }

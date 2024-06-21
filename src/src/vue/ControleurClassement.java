@@ -15,10 +15,32 @@ public class ControleurClassement implements EventHandler<ActionEvent>{
 
     @Override
     public void handle(ActionEvent event){
-        this.appli.getFenetreJourna().recherche();
+
         Button button = (Button) (event.getSource());
+        this.appli.getFenetreJourna().initialiseBoutonAthletisme();
+        this.appli.getFenetreJourna().initialiseBoutonClassement();
+        this.appli.getFenetreJourna().initialiseBoutonEscrime();
+        this.appli.getFenetreJourna().initialiseBoutonHandball();
+        this.appli.getFenetreJourna().initialiseBoutonNatation();
+        this.appli.getFenetreJourna().initialiseBoutonVolleyball();
         button.setStyle("-fx-background-color: black; -fx-background-radius: 1em; -fx-text-fill: #ffffff");
-        this.appli.getFenetreJourna().classement();
+        switch (button.getText()) {
+            case "Classement":
+            this.appli.getFenetreJourna().trieMedailleOr();
+                break;
+            case "Natation":
+            this.appli.getFenetreJourna().natation();break;
+            
+            case "Volley-Ball":
+                this.appli.getFenetreJourna().volleyball();break;
+            case "Handball":
+            this.appli.getFenetreJourna().handball();break;
+            case "Athlétisme":
+            this.appli.getFenetreJourna().volleyball();break;
+            default:
+            this.appli.getFenetreJourna().escrime();
+                break;
+        }
 
 
 
